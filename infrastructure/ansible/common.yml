@@ -1,0 +1,12 @@
+---
+- hosts: all
+  gather_facts: no
+  pre_tasks:
+    - name: "pre : update apt cache"
+      raw: sudo apt update
+    - name: "pre : install python-simplejson"
+      raw: sudo apt install -y python-simplejson
+    - name: "pre : gather facts"
+      setup:
+  roles:
+    - common

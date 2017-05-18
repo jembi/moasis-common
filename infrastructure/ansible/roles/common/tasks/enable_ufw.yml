@@ -1,0 +1,32 @@
+---
+- name: enable ufw
+  ufw:
+    state: enabled
+
+- name: allow openssh
+  ufw:
+    rule: allow
+    name: OpenSSH
+  notify:
+  - reload ufw
+
+- name: allow 8080
+  ufw:
+    rule: allow
+    port: 8080
+  notify:
+  - reload ufw
+
+- name: allow 5432
+  ufw:
+    rule: allow
+    port: 5432
+  notify:
+  - reload ufw
+
+- name: allow 80
+  ufw:
+    rule: allow
+    port: 80
+  notify:
+  - reload ufw

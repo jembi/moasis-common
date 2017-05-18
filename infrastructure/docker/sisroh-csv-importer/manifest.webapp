@@ -1,0 +1,21 @@
+{
+    "version": "0.1",
+    "name": "SISROH Tracker CSV Import",
+    "description": "A application to import SISROH death events from a CSV file",
+    "launch_path": "index.html",
+    "icons": {
+        "16": "images/logo.png",
+        "48": "images/logo.png",
+        "128": "images/logo.png"
+    },
+    "developer": {
+        "name": "Martin Brocker",
+        "url": "https://github.com/BMartinos"
+    },
+    "default_locale": "en",
+    "activities": {
+        "dhis": {
+            "href": "*"
+        }
+    }
+}

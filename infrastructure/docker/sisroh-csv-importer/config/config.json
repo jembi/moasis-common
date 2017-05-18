@@ -1,0 +1,14 @@
+{
+  "importServiceUrl": "http://188.226.149.241:3500",
+  "dhisUIDs": {
+  	"sqlViewImportFiles": "xiHwkBNV54K",
+  	"sqlViewImportRows": "hU3JKqhW6OQ"
+  },
+  "statusColor": {
+  	"successful": "#4CAF50",
+  	"failed": "#D32F2F",
+  	"pending": "#00BCD4",
+  	"duplicate": "#FFA000",
+  	"processing": "#03A9F4"
+  }
+}

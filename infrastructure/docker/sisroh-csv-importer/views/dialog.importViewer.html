@@ -1,0 +1,106 @@
+
+<md-dialog aria-label="{{ importObject.filename }} ({{ importObject.status | uppercase }})" class="dialogCustomSize90" ng-cloak>
+  <md-toolbar ng-style="{background: importObject.statusColor}">
+    <div class="md-toolbar-tools">
+     
+      <h2>
+        <strong>{{ importObject.filename }} ({{ importObject.status | uppercase }})</strong><br />
+        <div class="dialogToolbarH2Subtext">
+          Created: <strong>{{ importObject.date }}</strong>
+          Imported By: <strong>{{ importObject.user }}</strong>
+        </div>
+      </h2>
+      <span flex></span>
+
+      <md-fab-speed-dial md-direction="left" md-open="demo.isOpen" ng-show="rerun.allowAll" class="md-scale" >
+        <md-fab-trigger>
+          <md-button aria-label="menu" class="md-fab md-warn toolbarActionButton">
+            <md-tooltip md-direction="top">Menu</md-tooltip>
+            <i ng-show="!rerun.loadingAll" class="material-icons dialogToolbarIcon">reply_all</i>
+            <span ng-show="rerun.loadingAll" class="dialogToolbarIconLoading"><i class="fa fa-spinner fa-spin"></i></span>
+            Rerun All
+          </md-button>
+        </md-fab-trigger>
+        <md-fab-actions class="fabActionsContainer">
+          <md-button aria-label="Confirm" class="md-fab md-raised md-mini" ng-click="rerun.confirmRerun('all')">
+            <md-tooltip md-direction="Down" md-autohide="false">
+              Confirm Rerun
+            </md-tooltip>
+            <i class="material-icons dialogToolbarIcon">done_all</i>
+          </md-button>
+        </md-fab-actions>
+      </md-fab-speed-dial>
+
+      <md-fab-speed-dial md-direction="left" md-open="demo.isOpen2" ng-show="rerun.allowSelected" class="md-scale" ng-disabled="rerun.selected.length === 0">
+        <md-fab-trigger ng-disabled="rerun.selected.length === 0">
+          <md-button aria-label="menu" class="md-fab md-warn toolbarActionButton" ng-disabled="rerun.selected.length === 0">
+            <md-tooltip md-direction="top">Menu</md-tooltip>
+            <i ng-show="!rerun.loadingSelected" class="material-icons dialogToolbarIcon">list</i>
+            <span ng-show="rerun.loadingSelected" class="dialogToolbarIconLoading"><i class="fa fa-spinner fa-spin"></i></span>
+            Rerun Selected ({{rerun.selected.length}})
+          </md-button>
+        </md-fab-trigger>
+        <md-fab-actions class="fabActionsContainer" ng-show="rerun.selected.length > 0">
+          <md-button aria-label="Confirm" class="md-fab md-raised md-mini" ng-click="rerun.confirmRerun('selected')">
+            <md-tooltip md-direction="Down" md-autohide="false">
+              Confirm Rerun
+            </md-tooltip>
+            <i class="material-icons dialogToolbarIcon">done_all</i>
+          </md-button>
+        </md-fab-actions>
+      </md-fab-speed-dial>
+
+      <md-fab-speed-dial md-direction="left" class="md-scale">
+        <md-fab-trigger>
+          <md-button aria-label="menu" class="md-fab md-warn toolbarActionButton" ng-click="cancel()">
+            <md-tooltip md-direction="top">Close Import View</md-tooltip>
+            <i class="material-icons dialogToolbarIcon">close</i>
+            Close
+          </md-button>
+        </md-fab-trigger>
+      </md-fab-speed-dial>
+
+    </div>
+  </md-toolbar>
+  <md-dialog-content style="height: 100%;">
+
+    <md-progress-circular md-diameter="96" md-mode="indeterminate" ng-show="showEventsLoader"></md-progress-circular>
+
+    <div ng-show="personView" flex="100" class="full-height" ng-include="'views/partials/personView.html'"></div>
+
+    <md-tabs md-border-bottom flex="100" class="full-height" ng-show="!personView && !showEventsLoader" ng-cloak>
+      <md-tab ng-repeat="(key, tab) in tabs" ng-init="tabData = tab.data" label="{{tab.title}} ({{ tab.data.length }})">
+
+        <md-list flex="100" style="padding: 0px;">
+          <div ng-if="tab.data.length === 0" style="padding: 20px;">Nothing found.</div>
+
+          <md-list-item ng-click="showRowDetails(importRow);" ng-repeat="importRow in tab.data" ng-if="$index<tab.rowLimit">
+            <div flex="5">
+              <div class="importRowStatusLabel md-avatar" ng-if="importRow.status === 'Failed'" style="background-color: #D32F2F;"><i class="material-icons importRowStatusIcon">event_busy</i></div>
+              <div class="importRowStatusLabel md-avatar" ng-if="importRow.status === 'Successful'" style="background-color: #4CAF50;"><i class="material-icons importRowStatusIcon">event_available</i></div>
+              <div class="importRowStatusLabel md-avatar" ng-if="importRow.status === 'Processing'" style="background-color: #03A9F4;"><i class="material-icons importRowStatusIcon">cached</i></div>
+              <div class="importRowStatusLabel md-avatar" ng-if="importRow.status === 'Duplicate'" style="background-color: #FFA000;"><i class="material-icons importRowStatusIcon" style="font-size: 22px;">content_copy</i></div>
+              <div class="importRowStatusLabel md-avatar" ng-if="importRow.status === 'Pending'" style="background-color: #00BCD4;"><i class="material-icons importRowStatusIcon">event_note</i></div>
+            </div>
+
+            <div class="md-list-item-text" flex="95">
+              <div style="float: left;">{{ importRow.details.obito.obito_id_obitos }}</div>
+
+              <div class="importRowFailedDiv" ng-if="importRow.error">&nbsp;&nbsp;|&nbsp;&nbsp;{{ importRow.error }}</div>
+              <md-checkbox 
+                ng-model="importRow.checked"
+                aria-label="Row Checkbox" 
+                aria-hidden="true" 
+                ng-if="importRow.status === 'Failed'" 
+                ng-change="toggleSelectedRows(importRow.row_id, rerun.selected)"
+                class="md-secondary"></md-checkbox>
+            </div>
+          </md-list-item>
+        </md-list>
+        
+        <md-button class="md-raised" ng-if="tab.rowLimit<tab.data.length" ng-click="increaseRowLimit(tab.rowLimit, key)" style="background-color: #EAF566;">View More</md-button>
+
+      </md-tab>
+    </md-tabs>
+  </md-dialog-content>
+</md-dialog>

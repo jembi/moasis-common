@@ -1,0 +1,21 @@
+<div ng-show="ctrl.show" class="md-whiteframe-5dp controlSettingsDiv">
+  <md-toolbar class="controlSettingsToolbar">
+    <div class="md-toolbar-tools">
+      <h2 flex>Control Settings</h2>
+    </div>
+  </md-toolbar>
+
+  <div class="controlSettingsDivControls">
+    <div class="controlOptionDiv">
+      Import Files Refresh Rate:<br />
+      <input type="text" ng-model="ctrl.importFilesRR" /> ms
+      <md-switch class="md-primary" ng-model="ctrl.importFilesRREnabled" aria-label="Switch 1"></md-switch>
+    </div>
+    <div class="controlOptionDiv" style="border-top: 1px solid #ccc; padding-top: 10px;">
+      Individual Rows Refresh Rate:<br />
+      <input type="text" ng-model="ctrl.importRowsRR" /> ms
+      <md-switch class="md-primary" ng-model="ctrl.importRowsRREnabled" aria-label="Switch 1"></md-switch>
+    </div>  
+  </div>
+  
+</div>

@@ -1,0 +1,100 @@
+<div ng-controller="landingCtrl">
+  <!-- hidden input to store selected OrgUnit UID - Set from 'dhis-org-unit.js' directive -->
+  <!-- Input requires ID: 'selectedOrgUnit' -->
+  <input id="selectedOrgUnit" type="text" ng-model="data.selectedOrgUnit" style="display: none;">
+
+  <h1>SISROH Tracker CSV Importer</h1>
+  
+  <div class="orgUnitLevelsContainer">
+    <div ng-if="level.orgUnit" class="orgUnitLevel" ng-repeat="level in data.levels">{{ level.name }}: <strong>{{ level.orgUnit }}</strong></div>
+  </div>
+
+  <md-progress-circular md-diameter="96" md-mode="indeterminate" ng-show="showEventsLoader"></md-progress-circular>
+
+  <div ng-show="!showEventsLoader">
+    <md-whiteframe class="md-whiteframe-6dp whiteframeCustom" flex-sm="45" flex-gt-sm="35" flex-gt-md="100" layout layout-align="center center" ng-if="!data.orgUnit">
+      <span>Please select an Organisation Unit on the left.</span>
+    </md-whiteframe>
+
+    <div ng-if="data.orgUnit">
+
+      <div ng-if="!uploadResultBox.show">
+        <md-progress-linear md-mode="determinate" value="{{uploadPercentage}}" ng-if="data.files.length > 0"></md-progress-linear>
+        <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
+        <div ngf-drop ngf-select ng-model="data.files" class="drop-box" 
+          ngf-drag-over-class="'dragover'" ngf-multiple="true" ngf-allow-dir="true"
+          accept="text/csv,application/vnd.ms-excel" 
+          ngf-pattern="'text/csv,application/vnd.ms-excel'"
+          ng-style="data.files.length > 0 && {'border':'none'}">
+            Drop your CSV file here or click to upload
+        </div>
+        <md-progress-linear md-mode="determinate" value="{{uploadPercentage}}" ng-if="data.files.length > 0"></md-progress-linear>
+      </div>
+
+      <div ng-if="uploadResultBox.show" class="uploadResultBox" ng-style="uploadResultBox.status === 202 && {'background-color':'green'} || uploadResultBox.status !== 202 && {'background-color':'#D32F2F'}">
+        <span ng-bind-html="uploadResultBox.message"><span>
+      </div>
+
+      <md-whiteframe class="md-whiteframe-6dp whiteframeCustom" flex-sm="45" flex-gt-sm="35" flex-gt-md="100" layout layout-align="center center"  ng-if="data.imports.length === 0">
+        <span>There are currently no imports for this Organisation Unit<br />
+      </md-whiteframe>
+
+      <div style="margin-top: 20px;" ng-if="data.imports.length > 0">
+
+        <md-card>
+          <md-toolbar class="md-table-toolbar md-default">
+            <div class="md-toolbar-tools importFilesToolbar">
+              <span>Imports ( {{ data.orgUnit.name }} )</span>
+            </div>
+          </md-toolbar>
+
+          <md-table-container>
+            <table md-table ng-model="selected" md-progress="promise">
+              <thead md-head md-order="query.order" md-on-reorder="onReorder">
+                <tr md-row>
+                  <th md-column md-text width="200">Status</th>
+                  <th md-column md-text width="500">
+                    Results<br />
+                    <div class="importRowsStatusBtn" style="color: #4CAF50;">Successful</div>
+                    <div class="importRowsStatusBtn" style="color: #D32F2F;">Failed</div>
+                    <div class="importRowsStatusBtn" style="color: #FFA000;">Duplicate</div>
+                    <div class="importRowsStatusBtn" style="color: #03A9F4;">Processing</div>
+                    <div class="importRowsStatusBtn" style="color: #00BCD4;">Pending</div>
+                  </th>
+                  <th md-column md-date>Date</th>
+                  <th md-column md-text>Filename</th>
+                  <th md-column md-text>User</th>
+                </tr>
+              </thead>
+              <tbody md-body>
+                <tr md-row md-select="import" md-select-id="{{event.event}}" md-auto-select ng-repeat="import in data.imports | orderBy:'-date'">
+                  <td md-cell>
+                    <md-button class="md-raised importStatusLabel" ng-if="import.status === 'Failed'" ng-click="showImportDetails(import)" style="background-color: #D32F2F;">{{ import.status }}
+                      <md-tooltip md-direction="top">{{ import.error }}</md-tooltip>
+                    </md-button>
+                    <md-button class="md-raised importStatusLabel" ng-if="import.status === 'Successful'" ng-click="showImportDetails(import)" style="background-color: #4CAF50;">{{ import.status }}</md-button>
+                    <md-button class="md-raised importStatusLabel" ng-if="import.status === 'Processing'" ng-click="showImportDetails(import)" style="background-color: #03A9F4;">{{ import.status }}</md-button>
+                    <md-button class="md-raised importStatusLabel" ng-if="import.status === 'Pending'" ng-click="showImportDetails(import)" style="background-color: #00BCD4;">{{ import.status }}</md-button>
+                  </td>
+                  <td md-cell>
+                    <div class="importRowsStatusDiv" style="color: #4CAF50;"><i class="material-icons">event_available</i>{{ import.results.successful }}</div>
+                    <div class="importRowsStatusDiv" style="color: #D32F2F;"><i class="material-icons">event_busy</i>{{ import.results.failed }}</div>
+                    <div class="importRowsStatusDiv" style="color: #FFA000;"><i class="material-icons" style="font-size: 22px;">content_copy</i>{{ import.results.duplicate }}</div>
+                    <div class="importRowsStatusDiv" style="color: #03A9F4;"><i class="material-icons">cached</i>{{ import.results.processing }}</div>
+                    <div class="importRowsStatusDiv" style="color: #00BCD4;"><i class="material-icons">event_note</i>{{ import.results.pending }}</div>
+                  </td>
+                  <td md-cell>{{ import.date | date:'yyyy-MM-dd' }}</td>
+                  <td md-cell>{{ import.filename }}</td>
+                  <td md-cell>{{ import.user }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </md-table-container>
+          <!--<md-table-pagination md-limit="query.pageSize" md-page="query.page" md-total="{{data.importsPager}}" md-options="pageSizeOption" md-on-paginate="onPaginate" md-page-select></md-table-pagination>-->
+
+        </md-card>
+      </div>
+      
+    </div>
+  </div>
+</div>

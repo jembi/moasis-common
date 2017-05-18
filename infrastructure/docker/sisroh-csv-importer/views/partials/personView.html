@@ -1,0 +1,72 @@
+
+<md-toolbar ng-style="{background: person.statusColor}">
+  <div class="md-toolbar-tools" style="border-top: 1px solid #eee;">
+    <h2>
+      Row: 
+      <strong>{{ person.status | uppercase }}</strong>
+      <span ng-if="person.status === 'Failed'">&nbsp;|&nbsp;&nbsp;{{ person.error }}</span><br />
+      <div class="dialogToolbarH2Subtext">
+        Created: <strong>{{ person.created }}</strong>
+        Updated: <strong>{{ person.updated }}</strong>
+      </div>
+    </h2>
+    <div flex></div>
+
+    <md-fab-speed-dial md-direction="left" md-open="demo.isOpen" ng-show="rerun.allowSingle" class="md-scale" >
+      <md-fab-trigger>
+        <md-button aria-label="menu" class="md-fab md-warn toolbarActionButton">
+          <md-tooltip md-direction="top" >Menu</md-tooltip>
+          <i ng-show="!rerun.loadingSingle" class="material-icons dialogToolbarIcon">reply</i>
+          <span ng-show="rerun.loadingSingle" class="dialogToolbarIconLoading"><i class="fa fa-spinner fa-spin"></i></span>
+          Rerun
+        </md-button>
+      </md-fab-trigger>
+      <md-fab-actions class="fabActionsContainer">
+        <md-button aria-label="Confirm" class="md-fab md-raised md-mini" ng-click="rerun.confirmRerun('single', person.row_id)">
+          <md-tooltip md-direction="Down" md-autohide="false">
+            Confirm Rerun
+          </md-tooltip>
+          <i class="material-icons dialogToolbarIcon">done_all</i>
+        </md-button>
+      </md-fab-actions>
+    </md-fab-speed-dial>
+
+    <md-fab-speed-dial md-direction="left" class="md-scale">
+      <md-fab-trigger>
+        <md-button aria-label="menu" class="md-fab md-warn toolbarActionButton" ng-click="showRowLists()">
+          <md-tooltip md-direction="top">Close Person View</md-tooltip>
+          <i class="material-icons dialogToolbarIcon" style="">close</i>
+          Close
+        </md-button>
+      </md-fab-trigger>
+    </md-fab-speed-dial>
+
+  </div>
+</md-toolbar>
+<div class="full-height">
+
+  <md-tabs md-border-bottom flex="100" class="fullHeight">
+    <md-tab ng-repeat="(tabKey, tabDetails) in person.details" label="{{ importRowsSqlViewMapping[tabKey].name }}">
+
+
+
+      
+      <div layout="row" layout-wrap>
+        <div flex="25" ng-repeat="(key, val) in tabDetails">
+          <md-card class="importDetailsCard">
+            <md-card-header>
+              <md-card-header-text>
+                <span class="md-title">{{ importRowsSqlViewMapping[key].name }}</span>
+              </md-card-header-text>
+            </md-card-header>
+            <md-card-content>
+              <strong>{{ val || '&nbsp;' }}</strong>
+            </md-card-content>
+          </md-card>
+        </div>
+      </div>
+      
+      
+    </md-tab>
+  </md-tabs>
+</div>

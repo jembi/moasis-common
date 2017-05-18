@@ -1,0 +1,40 @@
+version: '2'
+
+services:
+  postgres:
+    image: postgres:9.5
+    environment:
+      - PGDATA=/var/lib/postgresql/data/pgdata
+      - POSTGRES_DB=dhis2
+      - POSTGRES_PASSWORD=dhis
+      - POSTGRES_USER=dhis
+    ports:
+      - "5432:5432"
+    # uncomment for persistence
+    #volumes:
+    #  - ./data/postgres:/var/lib/postgresql/data
+
+  # adapted from https://github.com/pgracio/dhis2-docker
+  dhis:
+    build: "./dhis2/."
+    environment:
+      JAVA_OPTS: "-Xmx1024m"
+      POSTGRES_DB: dhis2
+    depends_on:
+      - postgres
+    entrypoint: ./wait-for-it.sh -t 0 postgres:5432 --
+    command: catalina.sh run # https://github.com/docker/compose/issues/3140
+
+  import:
+    build: "../../sisroh-to-sisma-interop/."
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+
+  # expose dhis via nginx
+  nginx:
+    build: "./nginx/."
+    ports:
+      - "8080:8080"
+    depends_on:
+      - dhis
