@@ -11,7 +11,7 @@ This document describes the requirement allowing to easily run dhis2, Resouce Ma
 
 ### How to have dhis2 running in one command?
 
-Start a terminal and execute docker-compose with the default config, Sierra Leone dataset, or use docker-compose-empty-db.yml if you want to start with a clean state.
+Start a terminal and execute docker-compose with the default config, an empty db, or use docker-compose-sierra-leone.yml if you want to start with test date for DHIS2 from Sierra Leone.
 
 `docker-compose up`
 
