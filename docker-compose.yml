@@ -44,13 +44,13 @@ services:
   openhim-core:
     container_name: openhim-core
     image: jembi/openhim-core:latest
+    restart: always
     environment:
       mongo_url: "mongodb://mongo-db/openhim-dev"
       mongo_atnaUrl: "mongodb://mongo-db/openhim-dev"
       NODE_ENV: "production"
     links:
       - mongo-db
-    entrypoint: ./wait-for-it.sh -t 0 mongo-db:27017 --
     healthcheck:
      test: "curl -f http://openhim-core:8080"
      interval: 30s
@@ -59,10 +59,11 @@ services:
   openhim-console:
     container_name: openhim-console
     image: jembi/openhim-console:latest
+    restart: always
     links:
       - openhim-core
     ports:
-      - "9090:8080"
+      - "9090:80"
     volumes:
       - "./docker-config/openhim-console/default.json:/usr/share/nginx/html/config/default.json"
     healthcheck:
