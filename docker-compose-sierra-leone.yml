@@ -34,3 +34,7 @@ services:
      interval: 30s
      retries: 150
 
+  openhim:
+    container_name: openhim-core
+    image: jembi/openhim-core:latest
+    environment:
