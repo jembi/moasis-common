@@ -1,0 +1,15 @@
+{
+  "name": "mediator",
+  "version": "1.0.0",
+  "description": "Mediator between DHIS 2 and resource mapper?",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jembi",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.16.2"
+  }
+}
