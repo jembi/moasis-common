@@ -7,7 +7,7 @@ This document describes the requirement allowing to easily run dhis2, Resouce Ma
 
 ### Prerequisites
 
-* (Install Docker)[http://docs.docker.com/engine/installation/]
+* [Install Docker](http://docs.docker.com/engine/installation/)
 
 ### How to have dhis2 running in one command?
 
