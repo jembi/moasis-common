@@ -1,8 +1,9 @@
 version: '3'
 services:
   postgres-db:
-    container_name: postgres-db
+    container_name: database
     image: mdillon/postgis:9.5
+    restart: always
     environment:
       POSTGRES_USER: dhis
       POSTGRES_DB: dhis
@@ -10,7 +11,7 @@ services:
       POSTGRES_DB_TARGET: dhis-target
       PG_DATA: /var/lib/postgresql/data/pgdata:z
     volumes:
-      - "/data/postgres:/var/lib/postgresql/data/pgdata"
+      - postgres-data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -h database -p 5432 -d dhis2"]
       interval: 30s
@@ -20,6 +21,7 @@ services:
   dhis-web:
     container_name: dhis2-web
     image: dhis2/dhis2-web:2.27-tomcat7-jre8-latest
+    restart: always
     environment:
       JAVA_OPTS: "-Xmx1024m -Xms4000m"
       POSTGRES_DB: dhis
@@ -38,7 +40,7 @@ services:
     container_name: mongo-db
     image: mongo:3.4
     volumes:
-      - "/data/mongo:/data/db"
+      - "mongo-data:/data/db"
     restart: always
 
   openhim-core:
@@ -70,3 +72,7 @@ services:
      test: "curl -f http://openhim-console:8080"
      interval: 30s
      retries: 150
+
+volumes:
+  postgres-data:
+  mongo-data:
