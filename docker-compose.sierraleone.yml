@@ -3,7 +3,7 @@ services:
   postgres-db:
     container_name: database
     image: pgracio/dhis2-db:2.27-sierra-leone
-    restart: always
+    restart: unless-stopped
     environment:
       POSTGRES_USER: dhis
       POSTGRES_DB: dhis
