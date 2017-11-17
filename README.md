@@ -9,7 +9,7 @@ This document describes the requirement allowing to easily run dhis2, Resouce Ma
 
 * [Install Docker](http://docs.docker.com/engine/installation/)
 
-### How to have dhis2 running in one command?
+### How to have dhis2, OpenHIM and the prototype mediator running in one command?
 
 Start a terminal and execute docker-compose with the default config, an empty db, or use docker-compose.sierra-leone.yml if you want to start with test data for DHIS2 from Sierra Leone.
 
@@ -19,7 +19,15 @@ or
 
 `docker-compose -f docker-compose.yml -f docker-compose.sierraleone.yml up`
 
-Once the container is up, open url http://127.0.0.1:8085 and connect using usernmame `admin` and password `district` as explained in the dhis2 documentation.
+Once the container is up, you can access the following in any browser:
+
+* DHIS2: http://127.0.0.1:8085 - connect using username `admin` and password `district` as explained in the dhis2 documentation.
+* Openhim: http://127.0.0.1:9090 - connect using username `root@openhim.com` and password `openhim-password` as explained in the Openhim documentation.
+* Prototype Mediator: http://127.0.0.1:3000
+
+### How to have ResourceMap running?
+
+You need to clone the [ResouceMap](https://github.com/instedd/resourcemap) repository and follow the docker-compose instructions in the README there.
 
 #### Note about Postgres and DHIS
 
