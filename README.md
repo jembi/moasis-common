@@ -21,6 +21,10 @@ or
 
 Once the container is up, open url http://127.0.0.1:8085 and connect using usernmame `admin` and password `district` as explained in the dhis2 documentation.
 
+#### Note about Postgres and DHIS
+
+The DHIS2 image does not allow us to specifiy the database image name via environment variables which means that we are forced to use the same `database` container name for each of our configurations. I'd suggest deleting any existing 'database' containers before running `docker-compose up` to ensure the database intialises properly.
+
 ### Application logs
 
 To access application logs run `docker-compose logs -f`
