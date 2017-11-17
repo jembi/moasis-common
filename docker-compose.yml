@@ -73,6 +73,18 @@ services:
      interval: 30s
      retries: 150
 
+  mediator:
+    container_name: mfl-mediator
+    build: ./mediator
+    image: mfl-mediator
+    restart: always
+    ports:
+      - "3000:3000"
+    healthcheck:
+      test: "curl -f http://mfl-mediator:3000"
+      interval: 30s
+      retries: 150
+
 volumes:
   postgres-data:
   mongo-data:
