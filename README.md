@@ -29,6 +29,9 @@ Once the container is up, you can access the following in any browser:
 
 You need to clone the [ResouceMap](https://github.com/instedd/resourcemap) repository and follow the docker-compose instructions in the README there.
 
+### How to configure mailing in ResourceMap 
+Once the container is up, you need to setup the email service with valid email account settings in the file [`config/environments/development.rb`](config/environments/development.rb) 
+
 #### Note about Postgres and DHIS
 
 The DHIS2 image does not allow us to specifiy the database image name via environment variables which means that we are forced to use the same `database` container name for each of our configurations. I'd suggest deleting any existing 'database' containers before running `docker-compose up` to ensure the database intialises properly.
