@@ -30,7 +30,7 @@ Once the container is up, you can access the following in any browser:
 You need to clone the [ResouceMap](https://github.com/instedd/resourcemap) repository and follow the docker-compose instructions in the README there.
 
 ### How to configure mailing in ResourceMap 
-Once the container is up, you need to setup the email service with valid email account settings in the file [`config/environments/development.rb`](config/environments/development.rb) 
+Once the container is up, you need to setup the email service with valid email account settings in the file `resourcemap/config/environments/development.rb` 
 
 #### Note about Postgres and DHIS
 
