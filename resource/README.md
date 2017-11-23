@@ -2,25 +2,19 @@
 
 Start up the resource mapper docker container.
 
-Then open up a bash terminal into *resource_map_db_1*:
+Then open up mysql terminal into *resource_map_db_1*:
 ```bash
-docker exec -it resourcemap_db_1 bash
+docker exec -it resourcemap_db_1 mysql resource_map_development
 ```
 
-Open mysql terminal:
-```bash
-mysql
-```
+Add test user to database:
 
-Create test user in docker mysql database:
 ```sql
-use resource_map_development;
-
 insert into users (email, encrypted_password, confirmed_at)
 values ('test@resource.org', '$2a$10$JuJht2h/VAGQVa6CJ6Li5uMuj7JgkJksTfFpcd4XlFPsjy10QAOEi', '2017-11-20 13:08:19');
 ```
 
-Exit out of docker container: (ctrl + 'd') x 2
+Exit out of docker container: (ctrl + 'd')
 
 In your browser login to [Resource Mapper Console](http://localhost:3000/en):
 - username: **test@resource.org**
