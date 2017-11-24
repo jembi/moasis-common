@@ -22,7 +22,7 @@ or
 Once the container is up, you can access the following in any browser:
 
 * DHIS2: http://127.0.0.1:8085 - connect using username `admin` and password `district` as explained in the dhis2 documentation.
-* Openhim: http://127.0.0.1:9090 - connect using username `root@openhim.com` and password `openhim-password` as explained in the Openhim documentation.
+* Openhim: http://127.0.0.1:9090 - connect using username `root@openhim.org` and password `openhim-password` as explained in the Openhim documentation.
 * Prototype Mediator: http://127.0.0.1:3000
 
 ### How to have ResourceMap running?

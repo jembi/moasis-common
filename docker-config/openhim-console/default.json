@@ -1,6 +1,6 @@
 {
   "version": "1.11.1",
-  "minimumCoreVersion": "3.4.0",
+  "minimumCoreVersion": "4.0.0",
   "protocol": "https",
   "host": "localhost",
   "host_path": "",
