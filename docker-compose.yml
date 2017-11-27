@@ -84,6 +84,11 @@ services:
       test: "curl -f http://mfl-mediator:3000"
       interval: 30s
       retries: 150
+    environment:
+      PGUSER: dhis
+      PGHOST: database
+      PGPASSWORD: dhis
+      PGDATABASE: staging
 
 volumes:
   postgres-data:
