@@ -33,6 +33,12 @@ Execute `docker-compose up --build` to rebuild any images with changes.
 
 You need to clone the [ResouceMap](https://github.com/instedd/resourcemap) repository and follow the docker-compose instructions in the README there.
 
+To connect ResourceMap to the rest of the containers, link the resourcemap_web container to the maosis network:
+
+`docker network connect moasiscommon_moasis resourcemap_web_1`
+
+This will expose ResourceMap here: `resourcemap_web_1` on port `3000`
+
 ### How to configure mailing in ResourceMap
 
 Once the ResouceMap container is up, you need to setup the email service with valid email account settings: `config/environments/development.rb`

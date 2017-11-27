@@ -3,33 +3,59 @@
 const request = require('request-promise')
 const database = require('../database')
 
+// upsert query
+const queryStr = 'INSERT INTO MD_Facilities(id, name, uuid, properties, lat, lng) VALUES($1, $2, $3, $4, $5, $6) ON CONFLICT (id) DO UPDATE SET name = EXCLUDED.name, uuid = EXCLUDED.uuid, properties = EXCLUDED.properties, lat = EXCLUDED.lat, lng = EXCLUDED.lng RETURNING *'
+let promises = []
+
 exports.handleTestRequest = (req, res, next) => {
   res.sendStatus(200)
 }
 
 exports.handleSyncRequest = (req, res, next) => {
+  const auth = 'Basic ' + new Buffer('test@resource.org:test').toString('base64')
   let options = {
-    uri: 'http://resourcemap:3000/collections/1/sites.json'
+    uri: 'http://resourcemap_web_1:3000/collections/1/sites.json',
+    headers: {
+      'Authorization': auth
+    }
   }
 
   request(options)
     .then((body) => {
-      console.log(body.sites)
-      console.log(body.total_count)
+      let response = JSON.parse(body)
+      console.log('Facilities pulled: ', response.total_count)
 
       // save sites in postgres
-      // let facilities = body.sites
+      let facilities = response.sites
 
-      // facilities.forEach((item) => {
-      //   database.client.query('INSERT ')
-      // })
+      facilities.forEach((item) => {
+        let values = [
+          item.id,
+          item.name,
+          item.uuid,
+          item.properties,
+          item.lat,
+          item.lng
+        ]
 
-      res.sendStatus(200)
+        promises.push(database.client.query(queryStr, values))
+      })
+
+      Promise.all(promises)
+        .then(response => {
+          console.log('Facilities synced...')
+
+          res.sendStatus(200)
+        })
+        .catch(e => {
+          console.error(e.stack)
+          res.sendStatus(500)
+        })
     })
     .catch((err) => {
       if (err) {
         console.log(err)
-        res.sendStatus(403)
+        res.sendStatus(404)
       }
     })
 }

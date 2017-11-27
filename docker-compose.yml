@@ -34,6 +34,8 @@ services:
       - "8085:8080"
     networks:
       - moasis
+    depends_on:
+      - postgres-db
     entrypoint: ./wait-for-it.sh -t 0 postgres-db:5432 --
     command: catalina.sh run # https://github.com/docker/compose/issues/3140
     healthcheck:
@@ -65,6 +67,8 @@ services:
       - "6001:5001"
     networks:
       - moasis
+    depends_on:
+      - mongo-db
     healthcheck:
      test: "curl -sS http://openhim-core:8080/heartbeat || exit 1"
      interval: 30s
@@ -96,8 +100,10 @@ services:
       PGUSER: dhis
       PGHOST: database
       PGPASSWORD: dhis
-      PGDATABASE: dhis
+      PGDATABASE: postgres
       PGPORT: 5432
+    depends_on:
+      - postgres-db
     networks:
       - moasis
     ports:
