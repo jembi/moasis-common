@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>DHIS Export</title>
+</head>
+<body>
+  <div id="app"></div>
+
+  <script type="text/javascript" src="https://unpkg.com/vue@2.5.8/dist/vue.js"></script>
+
+  <script type="text/x-template" id="app-template">
+    <main>
+      <h1>DHIS Export</h1>
+      <export-form @submit="onSubmit" />
+    </main>
+  </script>
+
+  <script type="text/x-template" id="export-form-template">
+    <form @submit.prevent="onSubmit">
+      <!-- Org unit -->
+      <span v-if="fetchingOrgUnits">Loading...</span>
+      <select v-model="selectedOrgUnit" v-else autofocus required>
+        <option disabled value="">Select...</option>
+        <option v-for="orgUnit in orgUnits" :value="orgUnit.id">
+          {{orgUnit.displayName}}
+        </option>
+      </select>
+
+      <!-- Data set -->
+      <span v-if="fetchingDataSets">Loading...</span>
+      <select v-model="selectedDataSet" v-else autofocus required>
+        <option disabled value="">Select...</option>
+        <option v-for="dataSet in dataSets" :value="dataSet.id">
+          {{dataSet.displayName}}
+        </option>
+      </select>
+
+      <!-- Dates -->
+      <input type="date" v-model="selectedStartDate" required />
+      <input type="date" v-model="selectedEndDate" required />
+
+      <!-- Actions -->
+      <button type="submit">Export</button>
+    </form>
+  </script>
+
+  <script type="text/javascript">
+    function expectStatus(status) {
+      return (res) => {
+        if (res.status !== status) {
+          throw new Error(`Unexpected status code: ${res.status}`)
+        }
+        return res.json()
+      }
+    }
+    const ExportForm = {
+      template: '#export-form-template',
+      data() {
+        return {
+          // Org unit fields
+          fetchingOrgUnits: false,
+          orgUnits: [],
+          selectedOrgUnit: '',
+          // Data set fields
+          fetchingDataSets: false,
+          dataSets: [],
+          selectedDataSet: '',
+          // Date range fields
+          selectedStartDate: '2017-01-01',
+          selectedEndDate: '2017-12-31'
+        }
+      },
+      beforeMount() {
+        this.fetchOrgUnits()
+        this.fetchDataSets()
+      },
+      methods: {
+        fetchOrgUnits() {
+          this.fetchingOrgUnits = true
+          fetch('http://localhost:3000/orgUnits')
+            .then(expectStatus(200))
+            .then((orgUnits) => {
+              this.fetchingOrgUnits = false
+              this.orgUnits = orgUnits
+            }).catch((err) => {
+              this.fetchingOrgUnits = false
+              console.error(err)
+            })
+        },
+
+        fetchDataSets() {
+          this.fetchingDataSets = true
+          fetch('http://localhost:3000/dataSets')
+            .then(expectStatus(200))
+            .then((dataSets) => {
+              this.fetchingDataSets = false
+              this.dataSets = dataSets
+            }).catch((err) => {
+              this.fetchingDataSets = false
+              console.error(err)
+            })
+        },
+
+        onSubmit() {
+          this.$emit('submit', {
+            orgUnit: this.selectedOrgUnit,
+            dataSet: this.selectedDataSet,
+            startDate: this.selectedStartDate,
+            endDate: this.selectedEndDate
+          })
+        }
+      }
+    }
+
+    const vue = new Vue({
+      el: '#app',
+      template: '#app-template',
+      components: {
+        'export-form': ExportForm
+      },
+      methods: {
+        onSubmit(data) {
+          console.log('Submitted', data)
+        }
+      }
+    })
+  </script>
+</body>
+</html>
