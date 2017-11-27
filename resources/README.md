@@ -40,3 +40,7 @@ curl 'http://localhost:3000/api/collections/1/sites.json' \
 -H 'Content-Type: application/json' \
 -d '{"site": "{\"name\":\"Mozambique2\", \"lat\":-21.538654,\"lng\":33.291775}"}'
 ```
+
+# Import OpenHIM channels
+
+Use the Openhim import interface to import the channel config: `openhim-insert.json`

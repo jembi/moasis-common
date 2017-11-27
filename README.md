@@ -29,6 +29,10 @@ Once the container is up, you can access the following in any browser:
 
 Execute `docker-compose up --build` to rebuild any images with changes.
 
+### How to get setup with sample data?
+
+Refer to the instructions in the `/resources` folder.
+
 ### How to have ResourceMap running?
 
 You need to clone the [ResouceMap](https://github.com/instedd/resourcemap) repository and follow the docker-compose instructions in the README there.
