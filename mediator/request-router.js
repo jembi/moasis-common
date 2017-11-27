@@ -1,6 +1,7 @@
 'use strict'
 
 const {Router} = require('express')
+const cors = require('cors')
 const dhisHandler = require('./sync-handlers/dhis-handler')
 const pentahoHandler = require('./sync-handlers/pentaho-handler')
 const exportHandler = require('./export-handler')
@@ -17,6 +18,7 @@ router.get(
 )
 router.get(
   '/export',
+  cors(),
   exportHandler.handleExport
 )
 
