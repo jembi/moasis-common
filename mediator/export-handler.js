@@ -43,7 +43,7 @@ exports.handleExport = (req, res, next) => {
   searchDataValues(req.query)
     .then(response => exportDataValues(response.dataValues))
     .then(dataValues => {
-      res.status(200).send(dataValues)
+      res.status(200).attachment('export.json').send(dataValues)
     })
     .catch(err => {
       if (err.statusCode && err.statusCode < 500) {
