@@ -101,7 +101,7 @@ services:
     networks:
       - moasis
     ports:
-      - "4000:3000"
+      - "4000:4000"
     healthcheck:
       test: "curl -Ss http://mediator:3000 || exit 1"
       interval: 10s
