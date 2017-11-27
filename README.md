@@ -25,6 +25,10 @@ Once the container is up, you can access the following in any browser:
 * Openhim: http://127.0.0.1:9090 - connect using username `root@openhim.org` and password `openhim-password` as explained in the Openhim documentation.
 * Prototype Mediator: http://127.0.0.1:3000
 
+### How to rebuild mediator image with updated changes?
+
+Execute `docker-compose up --build` to rebuild any images with changes.
+
 ### How to have ResourceMap running?
 
 You need to clone the [ResouceMap](https://github.com/instedd/resourcemap) repository and follow the docker-compose instructions in the README there.

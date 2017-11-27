@@ -16,7 +16,7 @@ app.listen(4000, function () {
 
 process.on('SIGINT', () => {
   console.log('Closed db...')
-  database.close()
+  database.client.end()
   process.exit(1)
 })
 

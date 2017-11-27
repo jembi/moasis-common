@@ -15,8 +15,6 @@ services:
       PG_DATA: /var/lib/postgresql/data/pgdata:z
     volumes:
       - postgres-data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
     networks:
       - moasis
     healthcheck:
@@ -90,16 +88,22 @@ services:
      retries: 3
 
   mediator:
-    container_name: mfl-mediator
+    container_name: mediator
     build: ./mediator
-    image: mfl-mediator
+    image: mediator
     restart: unless-stopped
+    environment:
+      PGUSER: dhis
+      PGHOST: database
+      PGPASSWORD: dhis
+      PGDATABASE: dhis
+      PGPORT: 5432
     networks:
       - moasis
     ports:
       - "4000:3000"
     healthcheck:
-      test: "curl -Ss http://mfl-mediator:3000 || exit 1"
+      test: "curl -Ss http://mediator:3000 || exit 1"
       interval: 10s
       timeout: 10s
       retries: 3
