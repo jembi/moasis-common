@@ -66,6 +66,7 @@
         return res.json()
       }
     }
+
     const ExportForm = {
       template: '#export-form-template',
       data() {
@@ -90,7 +91,7 @@
       methods: {
         fetchOrgUnits() {
           this.fetchingOrgUnits = true
-          fetch('http://localhost:3000/orgUnits')
+          fetch('/orgUnits')
             .then(expectStatus(200))
             .then((orgUnits) => {
               this.fetchingOrgUnits = false
@@ -106,7 +107,7 @@
 
         fetchDataSets() {
           this.fetchingDataSets = true
-          fetch('http://localhost:3000/dataSets')
+          fetch('/dataSets')
             .then(expectStatus(200))
             .then((dataSets) => {
               this.fetchingDataSets = false
