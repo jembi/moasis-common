@@ -8,13 +8,14 @@ const queryStr = 'INSERT INTO MD_Facilities(id, name, uuid, properties, lat, lng
 let promises = []
 
 exports.handleTestRequest = (req, res, next) => {
+  console.log('Test request received...')
   res.sendStatus(200)
 }
 
 exports.handleSyncRequest = (req, res, next) => {
   const auth = 'Basic ' + new Buffer('test@resource.org:test').toString('base64')
   let options = {
-    uri: 'http://resourcemap_web_1:3000/collections/1/sites.json',
+    uri: 'http://openhim-core:5001/resourcemap',
     headers: {
       'Authorization': auth
     }
