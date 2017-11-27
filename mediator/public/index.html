@@ -23,7 +23,7 @@
       <div class="form-group">
         <label>Org Unit</label>
         <div v-if="fetchingOrgUnits">Loading...</div>
-        <select v-model="selectedOrgUnit" v-else autofocus required class="form-control">
+        <select v-model="selectedOrgUnit" v-else autofocus required class="form-control" ref="orgUnit">
           <option disabled value="">Select...</option>
           <option v-for="orgUnit in orgUnits" :value="orgUnit.id">
             {{orgUnit.displayName}}
@@ -34,7 +34,7 @@
       <div class="form-group">
         <label>Data Set</label>
         <div v-if="fetchingDataSets">Loading...</div>
-        <select v-model="selectedDataSet" v-else autofocus required class="form-control">
+        <select v-model="selectedDataSet" v-else required class="form-control">
           <option disabled value="">Select...</option>
           <option v-for="dataSet in dataSets" :value="dataSet.id">
             {{dataSet.displayName}}
@@ -95,6 +95,9 @@
             .then((orgUnits) => {
               this.fetchingOrgUnits = false
               this.orgUnits = orgUnits
+              this.$nextTick(() => {
+                this.$refs.orgUnit.focus()
+              })
             }).catch((err) => {
               this.fetchingOrgUnits = false
               console.error(err)
