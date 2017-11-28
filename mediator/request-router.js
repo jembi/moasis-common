@@ -9,16 +9,11 @@ const router = Router()
 
 router.get(
     '/dhis/test',
-    dhisHandler.fetchDhis
+    resourcemapHandler.syncResourcemap
 )
 router.get(
     '/pentaho/test',
     pentahoHandler.handleRequest
-)
-
-router.get(
-    '/resourcemap/test',
-    resourcemapHandler.syncResourcemap
 )
 
 module.exports = exports = router
