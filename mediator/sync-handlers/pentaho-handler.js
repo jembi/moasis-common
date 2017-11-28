@@ -51,7 +51,7 @@ exports.handleSyncRequest = (req, res, next) => {
           item.lng
         ]
 
-        promises.push(database.client.query(queryStr, values))
+        promises.push(database.query(queryStr, values))
       })
 
       Promise.all(promises)
