@@ -70,7 +70,7 @@ services:
     depends_on:
       - mongo-db
     healthcheck:
-     test: "curl -sS http://openhim-core:8080/heartbeat || exit 1"
+     test: "curl -ksS https://openhim-core:8080/heartbeat || exit 1"
      interval: 30s
      timeout: 30s
      retries: 3
