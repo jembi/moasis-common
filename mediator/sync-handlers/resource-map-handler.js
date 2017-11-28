@@ -25,7 +25,7 @@ async function updateSiteProperty(path, options = {}) {
     return utils.fetchWrapper(requestUrl, resourceOptions)
 }
 
-async function sync() {
+exports.syncResourcemap = async function() {
     const collections = await fetchResourceMap('api/collections')
     const collectionsResults = await (Promise.all(collections.map(async col => {
         const result = await fetchResourceMap(`api/collections/${col.id}`)
@@ -64,5 +64,3 @@ async function insertSites(colsWithoutIds, es_code) {
         }
     }
 }
-
-sync() 

@@ -25,5 +25,3 @@ exports.fetchWrapper = async function (url, options = {}) {
     }
     return resp.json()
 }
-
-
