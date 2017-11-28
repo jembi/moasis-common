@@ -25,6 +25,20 @@ Once the container is up, you can access the following in any browser:
 * Openhim: http://127.0.0.1:9090 - connect using username `root@openhim.com` and password `openhim-password` as explained in the Openhim documentation.
 * Prototype Mediator: http://127.0.0.1:3000
 
+In order to export data from DHIS a staging database will be needed to import the data values into:
+
+```bash
+docker-compose exec postgres-db psql -U dhis
+```
+
+```sql
+CREATE DATABASE staging;
+```
+
+```bash
+docker-compose restart mediator
+```
+
 ### How to have ResourceMap running?
 
 You need to clone the [ResouceMap](https://github.com/instedd/resourcemap) repository and follow the docker-compose instructions in the README there.
