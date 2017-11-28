@@ -2,8 +2,8 @@
 
 const {Router} = require('express')
 const cors = require('cors')
-const dhisHandler = require('./sync-handlers/dhis-handler')
 const pentahoHandler = require('./sync-handlers/pentaho-handler')
+const resourcemapHandler = require('./sync-handlers/resource-map-handler')
 const exportHandler = require('./export-handler')
 const request = require('request-promise-native')
 
@@ -11,8 +11,8 @@ const router = Router()
 router.use(cors())
 
 router.get(
-    '/dhis/test',
-    dhisHandler.handleRequest
+    '/dhis/sync',
+    resourcemapHandler.syncResourcemap
 )
 
 // Pentaho endpoints

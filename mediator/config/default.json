@@ -1,0 +1,12 @@
+{
+    "dhis":{
+        "user": "admin",
+        "pass" : "district",
+        "rootUrl":"http://127.0.0.1:8085"
+    },
+    "resourceMap":{
+        "user":"matome.phoshoko@jembi.org",
+        "pass":"matome",
+        "rootUrl":"http://localhost:3000"
+    }
+}
