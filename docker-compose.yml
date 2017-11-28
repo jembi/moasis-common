@@ -100,7 +100,7 @@ services:
       PGUSER: dhis
       PGHOST: database
       PGPASSWORD: dhis
-      PGDATABASE: postgres
+      PGDATABASE: staging
       PGPORT: 5432
     depends_on:
       - postgres-db
@@ -109,10 +109,9 @@ services:
     ports:
       - "4000:4000"
     healthcheck:
-      test: "curl -Ss http://mediator:3000 || exit 1"
-      interval: 10s
-      timeout: 10s
-      retries: 3
+      test: "curl -f http://mediator:4000"
+      interval: 30s
+      retries: 150
 
 volumes:
   postgres-data:

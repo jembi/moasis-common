@@ -32,6 +32,19 @@ Execute `docker-compose up --build` to rebuild any images with changes.
 ### How to get setup with sample data?
 
 Refer to the instructions in the `/resources` folder.
+In order to export data from DHIS a staging database will be needed to import the data values into:
+
+```bash
+docker-compose exec postgres-db psql -U dhis
+```
+
+```sql
+CREATE DATABASE staging;
+```
+
+```bash
+docker-compose restart mediator
+```
 
 ### How to have ResourceMap running?
 

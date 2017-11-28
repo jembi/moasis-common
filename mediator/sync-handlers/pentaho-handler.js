@@ -1,10 +1,22 @@
 'use strict'
 
-const request = require('request-promise')
-const database = require('../database')
+const request = require('request-promise-native')
+const database = require('../db')
 
 // upsert query
-const queryStr = 'INSERT INTO MD_Facilities(id, name, uuid, properties, lat, lng) VALUES($1, $2, $3, $4, $5, $6) ON CONFLICT (id) DO UPDATE SET name = EXCLUDED.name, uuid = EXCLUDED.uuid, properties = EXCLUDED.properties, lat = EXCLUDED.lat, lng = EXCLUDED.lng RETURNING *'
+const queryStr = `INSERT INTO Health_Facilities(
+    id, name, uuid,
+    properties,
+    lat,
+    lng
+  ) VALUES($1, $2, $3, $4, $5, $6)
+  ON CONFLICT (id) DO UPDATE SET
+    name = EXCLUDED.name,
+    uuid = EXCLUDED.uuid,
+    properties = EXCLUDED.properties,
+    lat = EXCLUDED.lat,
+    lng = EXCLUDED.lng
+  RETURNING *`
 let promises = []
 
 exports.handleTestRequest = (req, res, next) => {
