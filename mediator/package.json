@@ -10,6 +10,12 @@
   "author": "Jembi",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.16.2"
+    "app-root-path": "^2.0.1",
+    "deep-equal": "^1.0.1",
+    "express": "^4.16.2",
+    "fetch-cookie": "^0.7.0",
+    "form-data": "^2.3.1",
+    "nconf": "^0.9.1",
+    "node-fetch": "^1.7.3"
   }
 }
