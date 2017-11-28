@@ -25,15 +25,6 @@ Once the container is up, you can access the following in any browser:
 * Openhim: http://127.0.0.1:9090 - connect using username `root@openhim.org` and password `openhim-password` as explained in the Openhim documentation.
 * Prototype Mediator: http://127.0.0.1:3000
 
-### How to rebuild mediator image with updated changes?
-
-Execute `docker-compose up --build` to rebuild any images with changes.
-
-### How to get setup with sample data?
-
-Refer to the instructions in the `/resources` folder.
-In order to export data from DHIS a staging database will be needed to import the data values into:
-
 ```bash
 docker-compose exec postgres-db psql -U dhis
 ```
@@ -45,6 +36,27 @@ CREATE DATABASE staging;
 ```bash
 docker-compose restart mediator
 ```
+
+### How to have a clean slate again?
+
+Execute the following to remove all containers:
+```bash
+docker-compose down
+```
+
+Execute the following to remove all containers and volumes:
+```bash
+docker-compose down -v
+```
+
+### How to rebuild mediator image with updated changes?
+
+Execute `docker-compose up --build` to rebuild any images with changes.
+
+### How to get setup with sample data?
+
+Refer to the instructions in the `/resources` folder.
+In order to export data from DHIS a staging database will be needed to import the data values into:
 
 ### How to have ResourceMap running?
 
