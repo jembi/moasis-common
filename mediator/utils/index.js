@@ -1,7 +1,6 @@
 const config = require('../config')
 const dhisBaseUrl = config.get('dhis:rootUrl')
-const dhisUser = config.get('dhis:user')
-const dhisPassword = config.get('dhis:pass')
+
 const resourceMapBaseUrl = config.get('resourceMap:rootUrl')
 const resourceMapUser = config.get('resourceMap:user')
 const resourceMapPassword = config.get('resourceMap:pass')

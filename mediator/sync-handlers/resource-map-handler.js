@@ -8,6 +8,8 @@ const resourceMapBaseUrl = config.get('resourceMap:rootUrl')
 const resourceMapUser = config.get('resourceMap:user')
 const resourceMapPassword = config.get('resourceMap:pass')
 const dhisHandler = require('./dhis-handler')
+const dhisBaseUrl = config.get('dhis:rootUrl')
+
 
 const resourceMapHeaders = {
     Authorization: utils.getAuthBasicValue(resourceMapUser, resourceMapPassword)
@@ -25,7 +27,7 @@ async function updateSiteProperty(path, options = {}) {
     return utils.fetchWrapper(requestUrl, resourceOptions)
 }
 
-exports.syncResourcemap = async function() {
+exports.syncResourcemap = async function () {
     const collections = await fetchResourceMap('api/collections')
     const collectionsResults = await (Promise.all(collections.map(async col => {
         const result = await fetchResourceMap(`api/collections/${col.id}`)
@@ -47,6 +49,7 @@ exports.syncResourcemap = async function() {
 async function insertSites(colsWithoutIds, es_code) {
     for (const col of colsWithoutIds) {
         for (const site of col.sites) {
+            debugger
             const { response: { uid: dhis2_id } } = await dhisHandler.fetchDhis('api/organisationUnits', {
                 method: 'POST',
                 body: {

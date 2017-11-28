@@ -5,8 +5,12 @@ const FormData = require('form-data')
 const fetch = require('node-fetch')
 const path = require('path')
 
+const dhisBaseUrl = config.get('dhis:rootUrl')
+const dhisUser = config.get('dhis:user')
+const dhisPassword = config.get('dhis:pass')
+
 const dhisHeaders = {
-    Authorization: utils.getAuthBasicValue(utils.dhisUser, utils.dhisPassword)
+    Authorization: utils.getAuthBasicValue(dhisUser, dhisPassword)
 }
 
 exports.fetchDhis = async function (path, options = {}) {
@@ -14,5 +18,5 @@ exports.fetchDhis = async function (path, options = {}) {
     dhisOptions.headers['Content-Type'] = 'application/json'
     dhisOptions.headers['Accept'] = 'application/json'
     const requestUrl = dhisBaseUrl + '/' + path
-    return utils.fetchWrapper(requestUrl, dhisOptions)
+    return await utils.fetchWrapper(requestUrl, dhisOptions)
 }
