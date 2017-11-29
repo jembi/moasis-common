@@ -8,16 +8,21 @@ const exportHandler = require('./export-handler')
 const request = require('request-promise-native')
 
 const router = Router()
-
 router.use(cors())
 
 router.get(
-    '/dhis/test',
+    '/dhis/sync',
     resourcemapHandler.syncResourcemap
 )
+
+// Pentaho endpoints
 router.get(
     '/pentaho/test',
-    pentahoHandler.handleRequest
+    pentahoHandler.handleTestRequest
+)
+router.get(
+    '/pentaho/sync',
+    pentahoHandler.handleSyncRequest
 )
 
 router.get(

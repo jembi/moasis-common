@@ -12,6 +12,8 @@ services:
       PG_DATA: /var/lib/postgresql/data/pgdata:z
     volumes:
       - postgres-data-sierra-leone:/var/lib/postgresql/data
+    networks:
+      - moasis
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -h database -p 5432 -d dhis2"]
       interval: 30s

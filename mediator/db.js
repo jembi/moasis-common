@@ -16,7 +16,23 @@ pool
     )`
   )
   .then(() => {
-    console.log('Created "data_values" table')
+    console.log('Created "data_values" table...')
+  })
+  .catch(console.error)
+
+pool
+  .query(
+    `CREATE TABLE IF NOT EXISTS Health_Facilities(
+      id integer PRIMARY KEY,
+      name varchar(255),
+      uuid varchar(255),
+      properties text,
+      lat decimal,
+      lng decimal
+    )`
+  )
+  .then(() => {
+    console.log('Created "Health_Facilities" table...')
   })
   .catch(console.error)
 

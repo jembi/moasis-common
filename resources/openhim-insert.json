@@ -1,0 +1,121 @@
+{
+  "Users": [
+    {
+      "firstname": "Super",
+      "surname": "User",
+      "email": "root@openhim.org",
+      "passwordAlgorithm": "sha512",
+      "passwordHash": "700257e45b4ef58330b34168a6c9d6834568dc08719e1cedfcdc043c182b203b32a4847ddcbc85d9aa89cf85d809cae22e45ee4630a37746b3240551c5d20270",
+      "passwordSalt": "981bd7f6a1b2e22153607c57ab234001",
+      "groups": [
+        "admin"
+      ],
+      "token": null,
+      "tokenType": null,
+      "locked": false,
+      "expiry": null
+    }
+  ],
+  "Clients": [],
+  "Channels": [
+    {
+      "requestBody": true,
+      "responseBody": true,
+      "name": "Sync between RM and Pentaho",
+      "urlPattern": "^/pentaho/sync$",
+      "matchContentRegex": null,
+      "matchContentXpath": null,
+      "matchContentValue": null,
+      "matchContentJson": null,
+      "pollingSchedule": "30 seconds",
+      "tcpHost": null,
+      "tcpPort": null,
+      "autoRetryPeriodMinutes": 60,
+      "autoRetryEnabled": false,
+      "rewriteUrlsConfig": [],
+      "addAutoRewriteRules": true,
+      "rewriteUrls": false,
+      "status": "enabled",
+      "alerts": [],
+      "txRerunAcl": [],
+      "txViewFullAcl": [],
+      "txViewAcl": [],
+      "properties": [],
+      "matchContentTypes": [],
+      "routes": [
+        {
+          "name": "Mediator",
+          "secured": false,
+          "host": "mediator",
+          "port": 4000,
+          "path": "/pentaho/sync",
+          "pathTransform": "",
+          "primary": true,
+          "username": "",
+          "password": "",
+          "forwardAuthHeader": false,
+          "status": "enabled",
+          "type": "http"
+        }
+      ],
+      "authType": "public",
+      "whitelist": [],
+      "allow": [],
+      "type": "polling",
+      "methods": []
+    },
+    {
+      "requestBody": true,
+      "responseBody": true,
+      "name": "ResourceMap",
+      "urlPattern": "^/resourcemap$",
+      "matchContentRegex": null,
+      "matchContentXpath": null,
+      "matchContentValue": null,
+      "matchContentJson": null,
+      "pollingSchedule": null,
+      "tcpHost": null,
+      "tcpPort": null,
+      "autoRetryPeriodMinutes": 60,
+      "autoRetryEnabled": false,
+      "rewriteUrlsConfig": [],
+      "addAutoRewriteRules": true,
+      "rewriteUrls": false,
+      "status": "enabled",
+      "alerts": [],
+      "txRerunAcl": [],
+      "txViewFullAcl": [],
+      "txViewAcl": [],
+      "properties": [],
+      "matchContentTypes": [],
+      "routes": [
+        {
+          "name": "ResouceMap Get Sites",
+          "secured": false,
+          "host": "resourcemap_web_1",
+          "port": 3000,
+          "path": "/collections/1/sites.json",
+          "pathTransform": "",
+          "primary": true,
+          "username": "test@resource.org",
+          "password": "test",
+          "forwardAuthHeader": false,
+          "status": "enabled",
+          "type": "http"
+        }
+      ],
+      "authType": "public",
+      "whitelist": [],
+      "allow": [],
+      "type": "http",
+      "methods": [
+        "GET",
+        "POST",
+        "DELETE",
+        "PUT"
+      ]
+    }
+  ],
+  "Mediators": [],
+  "ContactGroups": []
+}
