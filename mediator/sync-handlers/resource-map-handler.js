@@ -43,7 +43,7 @@ async function sync() {
   const colsWithoutIds = collectionsResults
     .map(c => ({
       ...c,
-      sites: c.sites.filter(({ properties = {} }) => properties.dhis2_id == null)
+      sites: c.sites.filter(({ properties = {} }) => properties.es_code == null)
     }))
     .filter(c => c.sites.length > 0)
 
