@@ -5,10 +5,10 @@ const request = require('request-promise-native')
 const format = require('pg-format')
 const uuid = require('uuid/v4')
 
-function searchDataValues(query) {
+function searchDataValues (query) {
   return request({
     method: 'GET',
-    url: 'http://dhis2-web:8080/api/dataValueSets',
+    url: 'http://openhim-core:5001/api/dataValueSets',
     qs: query,
     auth: {
       user: 'admin',
@@ -18,7 +18,7 @@ function searchDataValues(query) {
   })
 }
 
-function exportDataValues(dataValues) {
+function exportDataValues (dataValues) {
   if (!Array.isArray(dataValues) || dataValues.length === 0) {
     // No data values
     return []

@@ -25,9 +25,9 @@ exports.handleTestRequest = (req, res, next) => {
 }
 
 exports.handleSyncRequest = (req, res, next) => {
-  const auth = 'Basic ' + new Buffer('test@resource.org:test').toString('base64')
+  const auth = 'Basic ' + new Buffer('root@openhim.org:pass').toString('base64')
   let options = {
-    uri: 'http://openhim-core:5001/resourcemap',
+    uri: 'http://openhim-core:5001/api/collections/1.json',
     headers: {
       'Authorization': auth
     }
@@ -58,11 +58,11 @@ exports.handleSyncRequest = (req, res, next) => {
         .then(response => {
           console.log('Facilities synced...')
 
-          res.sendStatus(200)
+          res.sendStatus(200).send(response)
         })
         .catch(e => {
           console.error(e.stack)
-          res.sendStatus(500)
+          res.sendStatus(500).send('Internal server error.')
         })
     })
     .catch((err) => {

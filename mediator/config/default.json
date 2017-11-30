@@ -1,12 +1,12 @@
 {
     "dhis":{
-        "user": "admin",
-        "pass" : "district",
-        "rootUrl":"http://dhis2-web:8080"
+        "user": "root@openhim.org",
+        "pass" : "pass",
+        "rootUrl":"http://openhim-core:5001"
     },
     "resourceMap":{
-        "user":"test@resource.org",
-        "pass":"test",
-        "rootUrl":"http://resourcemap_web_1:3000"
+        "user":"root@openhim.org",
+        "pass":"pass",
+        "rootUrl":"http://openhim-core:5001"
     }
 }

@@ -14,7 +14,7 @@ exports.fetchWrapper = async function (url, options = {}) {
   }
 
   const resp = await fetch(url, options).then(resp => {
-    console.log('Resource data fetched...')
+    console.log('Resource data fetched for: ', url)
     return resp
   }).catch(err => {
     throw new Error(err.stack)

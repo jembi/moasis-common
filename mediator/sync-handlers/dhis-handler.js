@@ -1,6 +1,5 @@
 const utils = require('../utils')
 const config = require('../config')
-
 const dhisBaseUrl = config.get('dhis:rootUrl')
 const dhisUser = config.get('dhis:user')
 const dhisPassword = config.get('dhis:pass')

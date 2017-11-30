@@ -35,7 +35,7 @@ router.get(
   (req, res, next) => {
     request({
       method: 'GET',
-      url: 'http://admin:district@dhis-web:8080/api/organisationUnits?paging=false',
+      url: 'http://openhim-core:5001/api/organisationUnits?paging=false',
       json: true
     }).then((response) => {
       res.status(200).send(response.organisationUnits)
@@ -48,7 +48,7 @@ router.get(
   (req, res, next) => {
     request({
       method: 'GET',
-      url: 'http://admin:district@dhis-web:8080/api/dataSets?paging=false',
+      url: 'http://openhim-core:5001/api/dataSets?paging=false',
       json: true
     }).then((response) => {
       res.status(200).send(response.dataSets)

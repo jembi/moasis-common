@@ -10,13 +10,13 @@ const resourceMapHeaders = {
   Authorization: utils.getAuthBasicValue(resourceMapUser, resourceMapPassword)
 }
 
-async function fetchResourceMap(path, options = {}) {
+async function fetchResourceMap (path, options = {}) {
   const resourceOptions = Object.assign({}, { headers: resourceMapHeaders }, options)
   const requestUrl = resourceMapBaseUrl + '/' + path + '.json'
   return utils.fetchWrapper(requestUrl, resourceOptions)
 }
 
-async function updateSiteProperty(path, options = {}) {
+async function updateSiteProperty (path, options = {}) {
   const resourceOptions = Object.assign({}, { headers: resourceMapHeaders }, options)
   const requestUrl = resourceMapBaseUrl + '/' + path
   return utils.fetchWrapper(requestUrl, resourceOptions)
@@ -31,7 +31,7 @@ exports.syncResourcemap = async function (req, res, next) {
   }
 }
 
-async function sync() {
+async function sync () {
   const collections = await fetchResourceMap('api/collections')
 
   const collectionsResults = await (Promise.all(collections.map(async col => {
@@ -43,21 +43,22 @@ async function sync() {
   const colsWithoutIds = collectionsResults
     .map(c => ({
       ...c,
-      sites: c.sites.filter(({ properties = {} }) => properties.es_code == null)
+      sites: c.sites.filter(({ properties = {} }) => properties.dhis2_id == null)
     }))
     .filter(c => c.sites.length > 0)
 
   for (const collectionId of collectionsResults) {
     const layers = await fetchResourceMap(`api/collections/${collectionId.id}/fields/mapping`)
-    const [es_code] = layers.filter(el => el.code === 'es_code')
-    if(es_code == null){
-      console.warn(`Could't find an es_code for collection ${collectionId}, please ensure it's there.`)
+    const [dhis2_id] = layers.filter(el => el.code === 'dhis2_id')
+    if (dhis2_id == null) {
+      console.warn(`Couldn't find an dhis2_id for collection ${collectionId}, please ensure it's there.`)
       continue
     }
-    await insertSites(colsWithoutIds, es_code.id)
+    await insertSites(colsWithoutIds, dhis2_id.id)
   }
 }
-async function insertSites(colsWithoutIds, es_code) {
+
+async function insertSites (colsWithoutIds, es_code) {
   for (const col of colsWithoutIds) {
     for (const site of col.sites) {
       const { response: { uid: dhis2_id } } = await dhisHandler.fetchDhis('api/organisationUnits', {
@@ -70,8 +71,8 @@ async function insertSites(colsWithoutIds, es_code) {
           longitude: site.long
         }
       })
-      let qs = `?es_code=${es_code}&value=${dhis2_id}`
 
+      let qs = `?es_code=${es_code}&value=${dhis2_id}`
       await updateSiteProperty(`api/sites/${site.id}/update_property${qs}`, {
         method: 'POST'
       })
