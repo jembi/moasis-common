@@ -242,7 +242,7 @@
         {
           "name": "Get Data sets",
           "secured": false,
-          "host": "dhis2_web",
+          "host": "dhis2-web",
           "port": 8080,
           "path": "",
           "pathTransform": "",
