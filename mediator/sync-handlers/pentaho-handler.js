@@ -55,14 +55,14 @@ exports.handleSyncRequest = (req, res, next) => {
       })
 
       Promise.all(promises)
-        .then(response => {
+        .then(data => {
           console.log('Facilities synced...')
 
-          res.sendStatus(200).send(response)
+          res.sendStatus(200)
         })
         .catch(e => {
           console.error(e.stack)
-          res.sendStatus(500).send('Internal server error.')
+          res.sendStatus(500)
         })
     })
     .catch((err) => {
