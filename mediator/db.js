@@ -12,6 +12,7 @@ pool
       org_unit VARCHAR(255),
       period VARCHAR(255),
       value VARCHAR(255),
+      created timestamp,
       export_id UUID
     )`
   )
@@ -25,7 +26,7 @@ pool
     `CREATE TABLE IF NOT EXISTS Health_Facilities(
       id integer PRIMARY KEY,
       name varchar(255),
-      uuid varchar(255),
+      code varchar(255),
       properties text,
       lat decimal,
       lng decimal
