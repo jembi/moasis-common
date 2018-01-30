@@ -26,8 +26,8 @@ pool
     `CREATE TABLE IF NOT EXISTS Health_Facilities(
       id integer PRIMARY KEY,
       name varchar(255),
-      code varchar(255),
       properties text,
+      created timestamp,
       lat decimal,
       lng decimal
     )`
