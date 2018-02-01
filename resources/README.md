@@ -41,6 +41,12 @@ curl 'http://localhost:3000/api/collections/1/sites.json' \
 -d '{"site": "{\"name\":\"Mozambique2\", \"lat\":-21.538654,\"lng\":33.291775}"}'
 ```
 
-# Import OpenHIM channels
+# Setup test configurations and metadata
+
+## Import DHIS2 metadata
+
+Use the DHIS2 metadata file to import test org units and data elements: `demo-metadata.xml.zip`
+
+## Import OpenHIM channels
 
 Use the Openhim import interface to import the channel config: `openhim-insert.json`

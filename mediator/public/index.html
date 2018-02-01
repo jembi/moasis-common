@@ -4,7 +4,10 @@
   <title>DHIS Export</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
+  integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous"> -->
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
 <body>
   <div id="app"></div>
@@ -13,48 +16,138 @@
 
   <script type="text/x-template" id="app-template">
     <main class="container">
-      <h1>DHIS Export</h1>
-      <export-form />
+      <h1>Interoperability prototype</h1>
+      <hr/>
+      <ul class="nav nav-tabs">
+        <li class="active"><a href="#1a" data-toggle="tab">DHIS Export</a></li>
+        <li><a href="#2a" data-toggle="tab">eSIP Output</a></li>
+      </ul>
+
+      <div class="tab-content clearfix">
+			  <div class="tab-pane active" id="1a">
+          <h3>DHIS Export</h3>
+          <hr/>
+          <export-form />
+				</div>
+				<div class="tab-pane" id="2a">
+          <h3>eSIP Output</h3>
+          <hr/>
+          <esip-table />
+				</div>
+			</div>
     </main>
   </script>
 
+  <script type="text/x-template" id="esip-table-template">
+    <div>
+      <h4>Health Facilities - eSIP</h4>
+      <div v-if="fetchingFacilities">Loading...</div>
+      <table class="table" v-else>
+        <thead>
+          <th scope="col">#</th>
+          <th scope="col">Name</th>
+          <th scope="col">lat</th>
+          <th scope="col">lng</th>
+          <th scope="col">created</th>
+        </thead>
+        <tbody>
+          <tr v-for="facility in facilities">
+            <th scope="row">{{facility.id}}</th>
+            <td>{{facility.name}}</td>
+            <td>{{facility.lat}}</td>
+            <td>{{facility.lng}}</td>
+            <td>{{facility.created}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <hr/>
+
+      <h4>Aggregate Values - eSIP</h4>
+      <div v-if="fetchingAggregateValues">Loading...</div>
+      <table class="table" v-else>
+        <thead>
+          <th scope="col">Period</th>
+          <th scope="col">Consultas Externas - Total de Consultas Externas</th>
+          <th scope="col">HIV - TARV - Total de Novos Inicios</th>
+        </thead>
+        <tbody>
+          <tr v-for="aggrValue in aggrValues">
+            <th scope="row">{{aggrValue.period}}</th>
+            <td>{{aggrValue.consultasexternas}}</td>
+            <td>{{aggrValue.hivtarv}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <!-- <h4>Data Values - eSIP</h4>
+      <div v-if="fetchingDataValues">Loading...</div>
+      <table class="table" v-else>
+        <thead>
+          <th scope="col">#</th>
+          <th scope="col">DataElement</th>
+          <th scope="col">Facility</th>
+          <th scope="col">Period</th>
+          <th scope="col">Value</th>
+          <th scope="col">created</th>
+        </thead>
+        <tbody>
+          <tr v-for="dataValue in dataValues">
+            <th scope="row">{{dataValue.id}}</th>
+            <td>{{dataValue.data_element}}</td>
+            <td>{{dataValue.org_unit}}</td>
+            <td>{{dataValue.period}}</td>
+            <td>{{dataValue.value}}</td>
+            <td>{{dataValue.created}}</td>
+          </tr>
+        </tbody>
+      </table> -->
+    </div>
+  </script>
+
   <script type="text/x-template" id="export-form-template">
-    <form action="/export" method="GET">
-      <div class="form-group">
-        <label for="orgUnit">Org Unit</label>
-        <div v-if="fetchingOrgUnits">Loading...</div>
-        <select v-model="selectedOrgUnit" v-else autofocus required class="form-control" ref="orgUnit" name="orgUnit">
-          <option disabled value="">Select...</option>
-          <option v-for="orgUnit in orgUnits" :value="orgUnit.id">
-            {{orgUnit.displayName}}
-          </option>
-        </select>
-      </div>
+    <div>
+      <h4>Aggregate Values</h4>
+      <div v-if="fetchingAggValues">Loading...</div>
+      <button v-else v-on:click="getAggregateValues" class="btn btn-primary">Get Aggregate Values</button>
+      <hr/>
 
-      <div class="form-group">
-        <label for="dataSet">Data Set</label>
-        <div v-if="fetchingDataSets">Loading...</div>
-        <select v-model="selectedDataSet" v-else required class="form-control" name="dataSet">
-          <option disabled value="">Select...</option>
-          <option v-for="dataSet in dataSets" :value="dataSet.id">
-            {{dataSet.displayName}}
-          </option>
-        </select>
-      </div>
-
-      <div class="form-row">
-        <div class="form-group col">
-          <label for="startDate">Start Date</label>
-          <input type="date" v-model="selectedStartDate" required class="form-control" name="startDate" />
+      <h4>Data Values</h4>
+      <form action="/export" method="GET">
+        <div class="form-group">
+          <label for="orgUnit">Org Unit</label>
+          <div v-if="fetchingOrgUnits">Loading...</div>
+          <select v-model="selectedOrgUnit" v-else autofocus required class="form-control" ref="orgUnit" name="orgUnit">
+            <option disabled value="">Select...</option>
+            <option v-for="orgUnit in orgUnits" :value="orgUnit.id">
+              {{orgUnit.displayName}}
+            </option>
+          </select>
         </div>
-        <div class="form-group col">
-          <label for="endDate">End Date</label>
-          <input type="date" v-model="selectedEndDate" required class="form-control" name="endDate" />
-        </div>
-      </div>
 
-      <button type="submit" class="btn btn-primary">Export</button>
-    </form>
+        <div class="form-group">
+          <label for="dataSet">Data Set</label>
+          <div v-if="fetchingDataSets">Loading...</div>
+          <select v-model="selectedDataSet" v-else required class="form-control" name="dataSet">
+            <option disabled value="">Select...</option>
+            <option v-for="dataSet in dataSets" :value="dataSet.id">
+              {{dataSet.displayName}}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col">
+            <label for="startDate">Start Date</label>
+            <input type="date" v-model="selectedStartDate" required class="form-control" name="startDate" />
+          </div>
+          <div class="form-group col">
+            <label for="endDate">End Date</label>
+            <input type="date" v-model="selectedEndDate" required class="form-control" name="endDate" />
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Export</button>
+      </form>
+    </div>
   </script>
 
   <script type="text/javascript">
@@ -81,7 +174,8 @@
           selectedDataSet: '',
           // Date range fields
           selectedStartDate: '2017-01-01',
-          selectedEndDate: '2017-12-31'
+          selectedEndDate: '2017-12-31',
+          fetchingAggValues: false
         }
       },
       beforeMount() {
@@ -116,17 +210,98 @@
               this.fetchingDataSets = false
               console.error(err)
             })
+        },
+
+        getAggregateValues() {
+          this.fetchingAggValues = true
+          fetch('/getAggregateValues')
+            .then(expectStatus(200))
+            .then((res) => {
+              console.log(res)
+              this.fetchingAggValues = false
+            }).catch((err) => {
+              this.fetchingAggValues = false
+              console.error(err)
+            })
         }
       }
     }
+
+    const ESIPTable = {
+        template: '#esip-table-template',
+        data() {
+          return {
+            // Facility fields
+            fetchingFacilities: false,
+            facilities: [],
+            // Data value fields
+            fetchingDataValues: false,
+            dataValues: [],
+            fetchingAggregateValues: false,
+            aggrValues: []
+          }
+        },
+        beforeMount() {
+          this.fetchFacilities()
+          this.fetchDataValues()
+          this.fetchAggregateValues()
+        },
+        methods: {
+          fetchFacilities() {
+            this.fetchingFacilities = true
+            fetch('/healthFacilities')
+              .then(expectStatus(200))
+              .then((facilities) => {
+                this.fetchingFacilities = false
+                this.facilities = facilities
+              }).catch((err) => {
+                this.fetchingFacilities = false
+                console.error(err)
+              })
+          },
+
+          fetchDataValues() {
+            this.fetchingDataValues = true
+            fetch('/dataValues')
+              .then(expectStatus(200))
+              .then((dataValues) => {
+                this.fetchingDataValues = false
+                this.dataValues = dataValues
+              }).catch((err) => {
+                this.fetchingDataValues = false
+                console.error(err)
+              })
+          },
+
+          fetchAggregateValues() {
+            this.fetchingAggregateValues = true
+            fetch('/aggregateValues')
+              .then(expectStatus(200))
+              .then((aggrValues) => {
+                this.fetchingAggregateValues = false
+                this.aggrValues = aggrValues
+              }).catch((err) => {
+                this.fetchingAggregateValues = false
+                console.error(err)
+              })
+          }
+        }
+      }
 
     new Vue({
       el: '#app',
       template: '#app-template',
       components: {
-        'export-form': ExportForm
+        'export-form': ExportForm,
+        'esip-table': ESIPTable
       }
     })
   </script>
 </body>
 </html>
+
+<!-- Bootstrap core JavaScript
+    ================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>

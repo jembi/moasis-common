@@ -1,5 +1,6 @@
 const utils = require('../utils')
 const config = require('../config')
+const request = require('request-promise-native')
 
 const resourceMapBaseUrl = config.get('resourceMap:rootUrl')
 const resourceMapUser = config.get('resourceMap:user')
@@ -31,7 +32,8 @@ exports.syncResourcemap = async function (req, res, next) {
   }
 }
 
-async function sync () {
+async function sync() {
+  // Sync sites from RM with OrgUnits in DHIS
   const collections = await fetchResourceMap('api/collections')
 
   const collectionsResults = await (Promise.all(collections.map(async col => {
@@ -55,6 +57,71 @@ async function sync () {
       continue
     }
     await insertSites(colsWithoutIds, dhis2_id.id)
+  }
+
+  // sync OrgUnits from DHIS with facilities in RM
+  const dhisResponse = await request({
+    method: 'GET',
+    url: `http://openhim-core:5001/api/organisationUnits?level=4`,
+    json: true
+  })
+
+  const rmResponse = await request({
+    method: 'GET',
+    url: 'http://openhim-core:5001/api/collections/1.json',
+    headers: {
+      'Authorization': 'Basic ' + new Buffer('root@openhim.org:pass').toString('base64')
+    },
+    json: true
+  })
+
+  dhisResponse.organisationUnits.forEach(async (facility) => {
+    let insertFacility = true
+
+    for (let i = 0; i < rmResponse.sites.length; i++) {
+      if (facility.id === rmResponse.sites[i].properties.dhis2_id) {
+        console.log(`Facility ${facility.displayName} already exists in collection.`)
+        insertFacility = false
+        continue
+      }
+    }
+    if (insertFacility) {
+      try {
+        await insertOrgUnit(facility)
+      } catch (err) {
+        console.log(err)
+        throw Error(err)
+      }
+    }
+  })
+}
+
+async function insertOrgUnit (facility) {
+  const formData = {
+    name: facility.displayName,
+    properties: {
+      dhis2_id: facility.id
+    }
+  }
+
+  try {
+    await request({
+      url: 'http://resourcemap_web_1:3000/api/collections/1/sites.json',
+      method: 'POST',
+      headers: {
+        'Authorization': 'Basic ' + new Buffer('test@resource.org:test').toString('base64'),
+        'Content-Type': 'multipart/form-data;'
+      },
+      formData: {
+        name: 'site',
+        site: JSON.stringify(formData)
+      }
+    })
+    console.log(`Facility ${facility.displayName} inserted in collection.`)
+  } catch (err) {
+    setTimeout(() => {
+      insertOrgUnit(facility)
+    }, 1000)
   }
 }
 

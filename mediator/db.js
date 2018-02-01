@@ -12,6 +12,7 @@ pool
       org_unit VARCHAR(255),
       period VARCHAR(255),
       value VARCHAR(255),
+      created timestamp,
       export_id UUID
     )`
   )
@@ -22,11 +23,26 @@ pool
 
 pool
   .query(
+    `CREATE TABLE IF NOT EXISTS aggregate_values (
+      id SERIAL,
+      period VARCHAR(255),
+      ConsultasExternas decimal,
+      HIVTARV decimal,
+      created timestamp
+    )`
+  )
+  .then(() => {
+    console.log('Created "aggregate_values" table...')
+  })
+  .catch(console.error)
+
+pool
+  .query(
     `CREATE TABLE IF NOT EXISTS Health_Facilities(
       id integer PRIMARY KEY,
       name varchar(255),
-      uuid varchar(255),
       properties text,
+      created timestamp,
       lat decimal,
       lng decimal
     )`
