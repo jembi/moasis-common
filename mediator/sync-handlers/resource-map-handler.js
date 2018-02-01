@@ -62,7 +62,7 @@ async function sync() {
   // sync OrgUnits from DHIS with facilities in RM
   const dhisResponse = await request({
     method: 'GET',
-    url: `http://openhim-core:5001/api/organisationUnits/`,
+    url: `http://openhim-core:5001/api/organisationUnits?level=4`,
     json: true
   })
 
@@ -79,7 +79,6 @@ async function sync() {
     let insertFacility = true
 
     for (let i = 0; i < rmResponse.sites.length; i++) {
-      console.log(rmResponse.sites[i])
       if (facility.id === rmResponse.sites[i].properties.dhis2_id) {
         console.log(`Facility ${facility.displayName} already exists in collection.`)
         insertFacility = false
@@ -87,7 +86,12 @@ async function sync() {
       }
     }
     if (insertFacility) {
-      await insertOrgUnit(facility)
+      try {
+        await insertOrgUnit(facility)
+      } catch (err) {
+        console.log(err)
+        throw Error(err)
+      }
     }
   })
 }
@@ -115,8 +119,9 @@ async function insertOrgUnit (facility) {
     })
     console.log(`Facility ${facility.displayName} inserted in collection.`)
   } catch (err) {
-    console.log(err)
-    throw Error(err)
+    setTimeout(() => {
+      insertOrgUnit(facility)
+    }, 1000)
   }
 }
 

@@ -23,6 +23,21 @@ pool
 
 pool
   .query(
+    `CREATE TABLE IF NOT EXISTS aggregate_values (
+      id SERIAL,
+      period VARCHAR(255),
+      ConsultasExternas decimal,
+      HIVTARV decimal,
+      created timestamp
+    )`
+  )
+  .then(() => {
+    console.log('Created "aggregate_values" table...')
+  })
+  .catch(console.error)
+
+pool
+  .query(
     `CREATE TABLE IF NOT EXISTS Health_Facilities(
       id integer PRIMARY KEY,
       name varchar(255),
