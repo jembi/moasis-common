@@ -13,9 +13,99 @@
 
   <script type="text/x-template" id="app-template">
     <main class="container">
-      <h1>DHIS Export</h1>
-      <export-form />
+      <h1>Interoperability prototype</h1>
+      <hr/>
+      <ul class="nav nav-tabs">
+        <li class="active"><a href="#1a" data-toggle="tab">DHIS Export</a></li>
+        <li><a href="#2a" data-toggle="tab">Data Export</a></li>
+        <li><a href="#3a" data-toggle="tab">Health Facilities</a></li>
+      </ul>
+
+      <div class="tab-content clearfix">
+			  <div class="tab-pane active" id="1a">
+          <h3>DHIS Export</h3>
+          <hr/>
+          <export-form />
+				</div>
+				<div class="tab-pane" id="2a">
+          <h3>Data Export Output</h3>
+          <hr/>
+          <esip-table />
+        </div>
+        <div class="tab-pane" id="3a">
+          <h3>Health Facilities Output</h3>
+          <hr/>
+          <facilities-table />
+        </div>
+			</div>
     </main>
+  </script>
+
+  <script type="text/x-template" id="facilities-table-template">
+    <h4>Health Facilities - eSIP</h4>
+    <div v-if="fetchingFacilities">Loading...</div>
+    <table class="table" v-else>
+      <thead>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">lat</th>
+        <th scope="col">lng</th>
+        <th scope="col">created</th>
+      </thead>
+      <tbody>
+        <tr v-for="facility in facilities">
+          <th scope="row">{{facility.id}}</th>
+          <td>{{facility.name}}</td>
+          <td>{{facility.lat}}</td>
+          <td>{{facility.lng}}</td>
+          <td>{{facility.created}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </script>
+
+  <script type="text/x-template" id="esip-table-template">
+    <div>
+      <h4>Aggregate Values - eSIP</h4>
+      <div v-if="fetchingAggregateValues">Loading...</div>
+      <table class="table" v-else>
+        <thead>
+          <th scope="col">Period</th>
+          <th scope="col">Consultas Externas - Total de Consultas Externas</th>
+          <th scope="col">HIV - TARV - Total de Novos Inicios</th>
+        </thead>
+        <tbody>
+          <tr v-for="aggrValue in aggrValues">
+            <th scope="row">{{aggrValue.period}}</th>
+            <td>{{aggrValue.consultasexternas}}</td>
+            <td>{{aggrValue.hivtarv}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <hr/>
+      <h4>Data Values - eSIP</h4>
+      <div v-if="fetchingDataValues">Loading...</div>
+      <table class="table" v-else style="max-height: 600px; overflow: auto;">
+        <thead>
+          <th scope="col">#</th>
+          <th scope="col">DataElement</th>
+          <th scope="col">Facility</th>
+          <th scope="col">Period</th>
+          <th scope="col">Value</th>
+          <th scope="col">created</th>
+        </thead>
+        <tbody>
+          <tr v-for="dataValue in dataValues">
+            <th scope="row">{{dataValue.id}}</th>
+            <td>{{dataValue.data_element}}</td>
+            <td>{{dataValue.org_unit}}</td>
+            <td>{{dataValue.period}}</td>
+            <td>{{dataValue.value}}</td>
+            <td>{{dataValue.created}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </script>
 
   <script type="text/x-template" id="export-form-template">
@@ -120,11 +210,85 @@
       }
     }
 
+    const HealthFacilitiesTable = {
+      template: '#facilities-table-template',
+      data() {
+        return {
+          // Facility fields
+          fetchingFacilities: false,
+          facilities: []
+        }
+      },
+      beforeMount() {
+        this.fetchFacilities()
+      },
+      methods: {
+        fetchFacilities() {
+          this.fetchingFacilities = true
+          fetch('/healthFacilities')
+            .then(expectStatus(200))
+            .then((facilities) => {
+              this.fetchingFacilities = false
+              this.facilities = facilities
+            }).catch((err) => {
+              this.fetchingFacilities = false
+              console.error(err)
+            })
+        },
+      }
+    }
+
+    const DataExportTable = {
+      template: '#esip-table-template',
+      data() {
+        return {
+          // Data value fields
+          fetchingDataValues: false,
+          dataValues: [],
+          fetchingAggregateValues: false,
+          aggrValues: []
+        }
+      },
+      beforeMount() {
+        this.fetchDataValues()
+        this.fetchAggregateValues()
+      },
+      methods: {
+        fetchDataValues() {
+          this.fetchingDataValues = true
+          fetch('/dataValues')
+            .then(expectStatus(200))
+            .then((dataValues) => {
+              this.fetchingDataValues = false
+              this.dataValues = dataValues
+            }).catch((err) => {
+              this.fetchingDataValues = false
+              console.error(err)
+            })
+        },
+
+        fetchAggregateValues() {
+          this.fetchingAggregateValues = true
+          fetch('/aggregateValues')
+            .then(expectStatus(200))
+            .then((aggrValues) => {
+              this.fetchingAggregateValues = false
+              this.aggrValues = aggrValues
+            }).catch((err) => {
+              this.fetchingAggregateValues = false
+              console.error(err)
+            })
+        }
+      }
+    }
+
     new Vue({
       el: '#app',
       template: '#app-template',
       components: {
-        'export-form': ExportForm
+        'export-form': ExportForm,
+        'facilities-table': HealthFacilitiesTable,
+        'esip-table': DataExportTable
       }
     })
   </script>
