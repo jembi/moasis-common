@@ -5,15 +5,16 @@ const database = require('../db')
 
 // upsert query
 const queryStr = `INSERT INTO Health_Facilities(
-    id, name, uuid,
+    id, name,
     properties,
+    created,
     lat,
     lng
   ) VALUES($1, $2, $3, $4, $5, $6)
   ON CONFLICT (id) DO UPDATE SET
     name = EXCLUDED.name,
-    uuid = EXCLUDED.uuid,
     properties = EXCLUDED.properties,
+    created = EXCLUDED.created,
     lat = EXCLUDED.lat,
     lng = EXCLUDED.lng
   RETURNING *`
@@ -45,10 +46,10 @@ exports.handleSyncRequest = (req, res, next) => {
         let values = [
           item.id,
           item.name,
-          item.uuid,
           item.properties,
+          item.createdAt,
           item.lat,
-          item.lng
+          item.long
         ]
 
         promises.push(database.query(queryStr, values))

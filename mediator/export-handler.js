@@ -5,7 +5,7 @@ const request = require('request-promise-native')
 const format = require('pg-format')
 const uuid = require('uuid/v4')
 
-function searchDataValues (query) {
+async function searchDataValues (query) {
   return request({
     method: 'GET',
     url: 'http://openhim-core:5001/api/dataValueSets',
@@ -18,38 +18,59 @@ function searchDataValues (query) {
   })
 }
 
-function exportDataValues (dataValues) {
+async function getOrgUnitName (uid, next) {
+  return request({
+    method: 'GET',
+    url: `http://openhim-core:5001/api/organisationUnits/${uid}`,
+    json: true
+  })
+}
+
+async function getDataElementName (uid, next) {
+  return request({
+    method: 'GET',
+    url: `http://openhim-core:5001/api/dataElements/${uid}`,
+    json: true
+  })
+}
+
+async function exportDataValues (dataValues) {
   if (!Array.isArray(dataValues) || dataValues.length === 0) {
     // No data values
     return []
   }
   const exportId = uuid()
   console.log(`Performing export "${exportId}"`)
-  const rows = dataValues.map(dataValue => [
-    dataValue.dataElement,
-    dataValue.orgUnit,
-    dataValue.period,
-    dataValue.value,
-    exportId
-  ])
+  const rows = await Promise.all(dataValues.map(async (dataValue) => {
+    const dataElement = await getDataElementName(dataValue.dataElement)
+    const orgUnit = await getOrgUnitName(dataValue.orgUnit)
+    return [
+      dataElement.name,
+      orgUnit.name,
+      dataValue.period,
+      dataValue.value,
+      dataValue.created,
+      exportId
+    ]
+  }))
   const query = format(
-    'INSERT INTO data_values (data_element, org_unit, period, value, export_id) VALUES %L RETURNING *',
+    'INSERT INTO data_values (data_element, org_unit, period, value, created, export_id) VALUES %L RETURNING *',
     rows
   )
   return db.query(query).then(result => result.rows)
 }
 
-exports.handleExport = (req, res, next) => {
-  searchDataValues(req.query)
-    .then(response => exportDataValues(response.dataValues))
-    .then(dataValues => {
-      res.status(200).attachment('export.json').send(dataValues)
-    })
-    .catch(err => {
-      if (err.statusCode && err.statusCode < 500) {
-        console.error(err)
-        return res.status(err.statusCode).send(err.error)
-      }
-      next(err)
-    })
+exports.handleExport = async (req, res, next) => {
+  try {
+    const searchResponse = await searchDataValues(req.query)
+    const dataValues = await exportDataValues(searchResponse.dataValues)
+
+    res.status(200).attachment('export.json').send(dataValues)
+  } catch (err) {
+    if (err.statusCode && err.statusCode < 500) {
+      console.error(err)
+      return res.status(err.statusCode).send(err.error)
+    }
+    next(err)
+  }
 }

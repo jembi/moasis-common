@@ -52,6 +52,11 @@ services:
     volumes:
       - "mongo-data:/data/db"
     restart: unless-stopped
+    healthcheck:
+      test: echo 'db.stats().ok' | mongo localhost:27017/ --quiet
+      interval: 5s
+      timeout: 5s
+      retries: 12
 
   openhim-core:
     container_name: openhim-core
