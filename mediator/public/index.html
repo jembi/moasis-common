@@ -45,26 +45,28 @@
   </script>
 
   <script type="text/x-template" id="facilities-table-template">
-    <h4>Health Facilities - eSIP</h4>
-    <div v-if="fetchingFacilities">Loading...</div>
-    <table class="table" v-else>
-      <thead>
-        <th scope="col">#</th>
-        <th scope="col">Name</th>
-        <th scope="col">lat</th>
-        <th scope="col">lng</th>
-        <th scope="col">created</th>
-      </thead>
-      <tbody>
-        <tr v-for="facility in facilities">
-          <th scope="row">{{facility.id}}</th>
-          <td>{{facility.name}}</td>
-          <td>{{facility.lat}}</td>
-          <td>{{facility.lng}}</td>
-          <td>{{facility.created}}</td>
-        </tr>
-      </tbody>
-    </table>
+    <div>
+      <h4>Health Facilities - eSIP</h4>
+      <div v-if="fetchingFacilities">Loading...</div>
+      <table class="table" v-else>
+        <thead>
+          <th scope="col">#</th>
+          <th scope="col">Name</th>
+          <th scope="col">lat</th>
+          <th scope="col">lng</th>
+          <th scope="col">created</th>
+        </thead>
+        <tbody>
+          <tr v-for="facility in facilities">
+            <th scope="row">{{facility.id}}</th>
+            <td>{{facility.name}}</td>
+            <td>{{facility.lat}}</td>
+            <td>{{facility.lng}}</td>
+            <td>{{facility.created}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </script>
 
   <script type="text/x-template" id="esip-table-template">
