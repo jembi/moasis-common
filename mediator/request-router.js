@@ -71,7 +71,7 @@ router.get(
     }).then((responseGroup) => {
       request({
         method: 'GET',
-        url: `http://dhis2-web:8080/api/analytics?dimension=dx:IN_GROUP-${responseGroup.indicatorGroups[0].id}&dimension=pe:201711;201712&aggregationType=SUM`,
+        url: `http://dhis2-web:8080/api/analytics?dimension=dx:IN_GROUP-${responseGroup.indicatorGroups[0].id}&dimension=pe:LAST_12_MONTHS&aggregationType=SUM`,
         headers: {
           'Authorization': 'Basic ' + new Buffer('admin:district').toString('base64')
         },
