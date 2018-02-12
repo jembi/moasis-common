@@ -59,6 +59,22 @@ router.get(
 )
 
 router.get(
+  '/indicatorGroups',
+  (req, res, next) => {
+    request({
+      method: 'GET',
+      url: 'http://dhis2-web:8080/api/indicatorGroups?paging=false',
+      headers: {
+        'Authorization': 'Basic ' + new Buffer('admin:district').toString('base64')
+      },
+      json: true
+    }).then((response) => {
+      res.status(200).send(response.indicatorGroups)
+    }).catch(next)
+  }
+)
+
+router.get(
   '/getAggregateValues',
   (req, res, next) => {
     request({
@@ -125,7 +141,7 @@ router.get(
 router.get(
   '/dataValues',
   (req, res, next) => {
-    db.query('SELECT id, data_element, org_unit, period, value, created FROM data_values')
+    db.query('SELECT id, org_unit, indicator, period, value, created FROM data_values')
       .then(result => res.status(200).send(result.rows))
       .catch(next)
   }

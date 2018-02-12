@@ -8,12 +8,11 @@ pool
   .query(
     `CREATE TABLE IF NOT EXISTS data_values (
       id SERIAL,
-      data_element VARCHAR(255),
+      indicator VARCHAR(255),
       org_unit VARCHAR(255),
       period VARCHAR(255),
       value VARCHAR(255),
-      created timestamp,
-      export_id UUID
+      created timestamp
     )`
   )
   .then(() => {
