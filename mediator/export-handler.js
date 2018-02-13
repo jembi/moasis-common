@@ -97,6 +97,8 @@ async function exportIndicatorValues (response) {
 
     db.query(insertQry, values)
   }
+  console.log('Indicators exported...')
+  return
 }
 
 exports.handleExport = async (req, res, next) => {
@@ -107,7 +109,7 @@ exports.handleExport = async (req, res, next) => {
     const searchResponse = await searchIndicatorValues(req.query)
     await exportIndicatorValues(searchResponse)
 
-    res.status(200)
+    res.status(200).attachment('export.json').send(JSON.stringify({msg: 'Data exported'}))
   } catch (err) {
     if (err.statusCode && err.statusCode < 500) {
       console.error(err)
