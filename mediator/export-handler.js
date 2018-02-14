@@ -26,11 +26,7 @@ async function searchIndicatorValues (query) {
 
   return request({
     method: 'GET',
-    url: `http://dhis2-web:8080/api/analytics?dimension=dx:IN_GROUP-${query.indicatorGroup}&dimension=pe:${range}&dimension=ou:${query.orgUnit}&aggregationType=SUM`,
-    auth: {
-      user: 'admin',
-      pass: 'district'
-    },
+    url: `http://openhim-core:5001/api/analytics?dimension=dx:IN_GROUP-${query.indicatorGroup}&dimension=pe:${range}&dimension=ou:${query.orgUnit}&aggregationType=SUM`,
     json: true
   })
 }
