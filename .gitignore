@@ -1,3 +1,4 @@
 data/
 ansible/*.retry
 **/.vagrant
+node_modules/
