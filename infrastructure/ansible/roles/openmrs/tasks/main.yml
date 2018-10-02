@@ -1,21 +1,32 @@
 ---
+- name: create directory for openmrs dockerfile
+  file: path=/opt/openmrs-tomcat state=directory
+
+- name: copy openmrs dockerfile to remote server
+  synchronize:
+    src: openmrs/
+    dest: /opt/openmrs-tomcat
+
+- name: build openmrs docker image
+  docker_image:
+    path: /opt/openmrs-tomcat
+    name: esaude/openmrs:1.11.6
+    buildargs:
+      DB_HOST: "mysql-db"
+      DB_DATABASE: "openmrs"
+      DB_USERNAME: "openmrs"
+      DB_PASSWORD: "{{ mysql_openmrs_password }}"
+      DB_AUTO_UPDATE: false
+
 - name: install openmrs using docker
   docker_container:
     name: openmrs
-    image: openmrs/openmrs-distro-platform:1.11.9-SNAPSHOT
+    image: esaude/openmrs:1.11.6
     state: started
-    pull: yes
+    pull: no
     restart_policy: unless-stopped
     published_ports:
       - "8080:8080"
-    env:
-      DB_HOST: "mysql-5.6"
-      DB_DATABASE: "openmrs"
-      DB_USERNAME: "openmrs"
-      DB_PASSWORD: "openmrs"
-      DB_CREATE_TABLES: true
-      DB_AUTO_UPDATE: false
-      MODULE_WEB_ADMIN: true
     networks:
       - name: "{{ docker_network }}"
 

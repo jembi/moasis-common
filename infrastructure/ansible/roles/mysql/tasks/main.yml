@@ -4,16 +4,16 @@
 
 - name: install mysql in docker
   docker_container:
-    name: mysql-5.6
+    name: mysql-db
     image: mysql:5.6
     state: started
     pull: yes
     restart_policy: unless-stopped
     env:
-      MYSQL_ROOT_PASSWORD: "test"
+      MYSQL_ROOT_PASSWORD: "{{ mysql_root_password }}"
       MYSQL_DATABASE: "openmrs"
       MYSQL_USER: "openmrs"
-      MYSQL_PASSWORD: "openmrs"
+      MYSQL_PASSWORD: "{{ mysql_openmrs_password }}"
     volumes:
       - "/opt/openmrs-mysql:/var/lib/mysql"
     networks:
