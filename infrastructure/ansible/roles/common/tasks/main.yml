@@ -1,8 +1,0 @@
----
-- include: create_users.yml
-- include: deploy_sshd_config.yml
-- include: enable_ufw.yml
-- include: install_git.yml
-  when: install_git == true
-- include: install_docker.yml
-  when: install_docker == true

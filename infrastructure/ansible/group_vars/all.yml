@@ -1,5 +1,0 @@
----
-permit_root_login: "no"
-permit_password_authentication: "no"
-install_docker: yes
-install_git: no
