@@ -29,7 +29,7 @@ services:
         DB_DATABASE: "openmrs"
         DB_USERNAME: "openmrs"
         DB_PASSWORD: "openmrs"
-        DB_AUTO_UPDATE: 'false'
+        DB_AUTO_UPDATE: 'true'
     image: openmrs-epts:1.0
     ports:
       - "8080:8080"

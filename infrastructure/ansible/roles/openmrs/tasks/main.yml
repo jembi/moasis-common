@@ -16,7 +16,7 @@
       DB_DATABASE: "openmrs"
       DB_USERNAME: "openmrs"
       DB_PASSWORD: "{{ mysql_openmrs_password }}"
-      DB_AUTO_UPDATE: false
+      DB_AUTO_UPDATE: true
 
 - name: install openmrs using docker
   docker_container:
