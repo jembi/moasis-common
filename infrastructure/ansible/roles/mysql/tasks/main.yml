@@ -1,0 +1,3 @@
+---
+- include: install_ubuntu.yml
+  when: install_ubuntu == true

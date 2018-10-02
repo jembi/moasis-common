@@ -1,0 +1,4 @@
+---
+- hosts: poc_qa
+  roles:
+    - common-centos6.9

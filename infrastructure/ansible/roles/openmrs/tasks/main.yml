@@ -1,0 +1,21 @@
+---
+- name: install openmrs using docker
+  docker_container:
+    name: openmrs
+    image: openmrs/openmrs-distro-platform:1.11.9-SNAPSHOT
+    state: started
+    pull: yes
+    restart_policy: unless-stopped
+    published_ports:
+      - "8080:8080"
+    env:
+      DB_HOST: "mysql-5.6"
+      DB_DATABASE: "openmrs"
+      DB_USERNAME: "openmrs"
+      DB_PASSWORD: "openmrs"
+      DB_CREATE_TABLES: true
+      DB_AUTO_UPDATE: false
+      MODULE_WEB_ADMIN: true
+    networks:
+      - name: "{{ docker_network }}"
+

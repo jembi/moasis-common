@@ -1,0 +1,9 @@
+---
+# GENERATE CRYPTED PASSWORD: apt install whois && mkpasswd -m sha-512 {{ password }}
+users:
+  - name: Nathan Floor
+    username: nathanf
+    password: $6$dpsMxYYsqppYrfv$j7V/OYTu8Z9gcvKGv3C/RcWiHaTxL935BbRhUsUbY6eR2PPYkBNiwg8jQC6okGDZd4jLhxNaZwz9vhEmWWP37.
+    key: https://github.com/nthfloor2.keys
+    shell: /bin/bash
+    state: present

@@ -1,0 +1,27 @@
+---
+- hosts: epts_qa
+  gather_facts: no
+  pre_tasks:
+    - name: "pre : update apt cache"
+      raw: sudo apt update
+    - name: "pre : install python-simplejson and python-pip"
+      raw: sudo apt install -y python-simplejson python-pip virtualenv
+    - name: "pre : gather facts"
+      setup:
+  vars:
+    allowed_ports:
+      - 8080
+    denied_ports: # ports that have been allowed must be denied to be blocked by the firewall
+      -
+    usernamesToAdd:
+      - nathanf
+    install_ubuntu: yes
+    install_centos7: no
+    install_docker: yes
+    docker_network: "epts"
+  roles:
+    - common
+    # - java
+    # - maven
+    - mysql
+    - openmrs

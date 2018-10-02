@@ -1,0 +1,35 @@
+---
+- name: make sure we have a 'wheel' group
+  group:
+    name: wheel
+    state: present
+
+- name: allow 'wheel' group to have passwordless sudo
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    regexp: '^%wheel'
+    line: '%wheel ALL=(ALL) NOPASSWD: ALL'
+    validate: visudo -cf %s
+
+- name: create users
+  user:
+    name: "{{ item.username }}"
+    password: "{{ item.password }}"
+    group: wheel
+    shell: "{{ item.shell }}"
+    state: "{{ item.state }}"
+    remove: "{{ (item.state == 'absent') | ternary('yes', 'no') }}"
+  with_items: "{{ users }}"
+  when: item.username in usernamesToAdd
+
+- name: add user authorized keys
+  authorized_key:
+    user: "{{ item.username }}"
+    key: "{{ item.key }}"
+    manage_dir: yes # create and manage permissions of .ssh directory
+    state: "{{ item.state }}"
+  with_items: "{{ users }}"
+  when:
+    - "item.state == 'present'"
+    - item.username in usernamesToAdd
