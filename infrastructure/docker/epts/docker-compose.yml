@@ -8,6 +8,7 @@ volumes:
 
 services:
   mysql-db:
+    container_name: mysql-db
     image: mysql:5.6
     environment:
       MYSQL_ROOT_PASSWORD: "test"
@@ -20,17 +21,18 @@ services:
       - epts
 
   openmrs:
-    image: openmrs/openmrs-distro-platform:1.11.9-SNAPSHOT
+    container_name: openmrs
+    build:
+      context: ./openmrs
+      args:
+        DB_HOST: "mysql-db"
+        DB_DATABASE: "openmrs"
+        DB_USERNAME: "openmrs"
+        DB_PASSWORD: "openmrs"
+        DB_AUTO_UPDATE: 'false'
+    image: openmrs-epts:1.0
     ports:
       - "8080:8080"
-    environment:
-      DB_HOST: "mysql-db"
-      DB_DATABASE: "openmrs"
-      DB_USERNAME: "openmrs"
-      DB_PASSWORD: "openmrs"
-      DB_CREATE_TABLES: 'true'
-      DB_AUTO_UPDATE: 'false'
-      MODULE_WEB_ADMIN: 'true'
     depends_on:
       - mysql-db
     networks:
