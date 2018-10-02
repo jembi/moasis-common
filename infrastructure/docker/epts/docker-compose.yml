@@ -1,0 +1,38 @@
+version: '3'
+
+networks:
+  epts:
+
+volumes:
+  mysql-data:
+
+services:
+  mysql-db:
+    image: mysql:5.6
+    environment:
+      MYSQL_ROOT_PASSWORD: "test"
+      MYSQL_DATABASE: "openmrs"
+      MYSQL_USER: "openmrs"
+      MYSQL_PASSWORD: "openmrs"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - epts
+
+  openmrs:
+    image: openmrs/openmrs-distro-platform:1.11.9-SNAPSHOT
+    ports:
+      - "8080:8080"
+    environment:
+      DB_HOST: "mysql-db"
+      DB_DATABASE: "openmrs"
+      DB_USERNAME: "openmrs"
+      DB_PASSWORD: "openmrs"
+      DB_CREATE_TABLES: 'true'
+      DB_AUTO_UPDATE: 'false'
+      MODULE_WEB_ADMIN: 'true'
+    depends_on:
+      - mysql-db
+    networks:
+      - epts
+
