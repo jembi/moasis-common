@@ -1,4 +1,17 @@
 ---
 - hosts: poc_qa
+  vars:
+    allowed_ports:
+      - 80
+    denied_ports: # ports that have been allowed must be denied to be blocked by the firewall
+      -
+    usernamesToAdd:
+      - nathanf
+      - amolc
+      - krishnanm
+    install_ubuntu: no
+    install_centos6: yes
+    install_docker: yes
+    docker_network: "poc"
   roles:
-    - common-centos6.9
+    - common
