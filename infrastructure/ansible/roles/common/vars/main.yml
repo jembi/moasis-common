@@ -1,0 +1,21 @@
+---
+# GENERATE CRYPTED PASSWORD: apt install whois && mkpasswd -m sha-512 {{ password }}
+developers:
+  - name: Nathan Floor
+    username: nathanf
+    password: $6$dpsMxYYsqppYrfv$j7V/OYTu8Z9gcvKGv3C/RcWiHaTxL935BbRhUsUbY6eR2PPYkBNiwg8jQC6okGDZd4jLhxNaZwz9vhEmWWP37.
+    key: https://github.com/nthfloor2.keys
+    shell: /bin/bash
+    state: present
+  - name: Amol Chavan
+    username: amolc
+    password: $6$KfpR1V6kq$olhlKH6JZXn.z9r7saKg2P9gDDCV6UEfOFDtHAkyPIMydBr7L9DYGQWGzN9hauLMIARYLFWCFfTjiE3UQqKpO.
+    key: https://github.com/amolbch.keys
+    shell: /bin/bash
+    state: present
+  - name: Krishnan Menon
+    username: krishnanm
+    password: $6$u7fl8ljn$dFtMtzGArTc4V4tS2.IqzwRS38ip2L4NhTowoIFV8/PyDOoOqPp9GrM5ngb98PPy0z..4a5QGo7WQ2uegZWoK/
+    key: https://github.com/krishnanspace.keys
+    shell: /bin/bash
+    state: present
