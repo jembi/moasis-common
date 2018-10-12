@@ -1,5 +1,5 @@
 ---
-- include: ubuntu/create_users.yml
+- include: create_users.yml
 - include: ubuntu/deploy_sshd_config.yml
 - include: ubuntu/enable_ufw.yml
 - include: ubuntu/allow_ufw_ports.yml

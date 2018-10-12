@@ -16,7 +16,7 @@
     usernamesToAdd:
       - nathanf
     install_ubuntu: yes
-    install_centos7: no
+    install_centos6: no
     install_docker: yes
     docker_network: "epts"
     mysql_root_password: !vault |

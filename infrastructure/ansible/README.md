@@ -68,7 +68,7 @@ If you are configuring the servers for the first time you will need to use the `
 
 ## Vault
 
-The vault password required for running the playbooks can be found in the HealthConnect KeePass file.
+The vault password required for running the playbooks can be found in the MOASIS KeePass file.
 
 To encrypt a new secret with vault run:
 
