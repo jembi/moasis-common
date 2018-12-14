@@ -16,6 +16,9 @@
     usernamesToAdd:
       - nathanf
       - baillyr
+      - steliom
+      - euricoj
+      - paulom
     install_ubuntu: yes
     install_centos6: no
     install_docker: yes
@@ -36,5 +39,5 @@
           3264
   roles:
     - common
-    - mysql
-    - openmrs
+    # - mysql
+    # - openmrs

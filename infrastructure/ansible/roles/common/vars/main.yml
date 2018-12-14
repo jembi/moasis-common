@@ -25,3 +25,21 @@ developers:
     key: https://github.com/rubailly.keys
     shell: /bin/bash
     state: present
+  - name: Stelio Moiane
+    username: steliom
+    password: $6$AY8RGYFTbI$tX1w/DC/D3TzzScLeBxO1CYLMJS7i0.PY/SqJfu1dUyY5RHL2qCh8mP0hIzxr50L3VDC3LavyyU2pmtjalmVn.
+    key: https://github.com/steliomo.keys
+    shell: /bin/bash
+    state: present
+  - name: Eurico Jose
+    username: euricoj
+    password: $6$kba3zQSRv3dUHXd$La0SXSmTWJO25v36O19D1aLWftw36lqBQrsNvYMrQLLNUtBaSHCJv2sC0CkQJUFNWecQx0scIfEAnHkaXmxlc1
+    key: https://github.com/pctjose.keys
+    shell: /bin/bash
+    state: present
+  - name: Paulo Sérgio Jaime Matsinhe
+    username: paulom
+    password: $6$8zHj4.GNr$yukgPGvu7d.iA8rwjCPsZh66e9548f8VNjhYS.lbmkqNDIJ8RyoDfahMxJMIZTUR/s0cPmCPQ4SgO5Y21ANvO0
+    key: https://github.com/psmatsinhe.keys
+    shell: /bin/bash
+    state: present
