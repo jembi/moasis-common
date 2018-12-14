@@ -43,3 +43,9 @@ developers:
     key: https://github.com/psmatsinhe.keys
     shell: /bin/bash
     state: present
+  - name: Edrisse Mussa
+    username: edrissem
+    password: $6$7qwSA1RiQ$Z.FROt0AkHMWn7iXdJ/gxo8Jd/rFki7AoBXKS40I9UjpaHHxRyP4C32Jhb2oBEjfVrbFEtKfouREN.qa5FQSi0
+    key: https://github.com/edrisse.keys
+    shell: /bin/bash
+    state: present
