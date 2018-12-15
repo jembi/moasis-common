@@ -6,6 +6,7 @@
   docker_container:
     name: mysql-db
     image: mysql:5.6
+    command: --max_allowed_packet=32505856      # Set max_allowed_packet to 256M (or any other value)
     state: started
     pull: yes
     restart_policy: unless-stopped
