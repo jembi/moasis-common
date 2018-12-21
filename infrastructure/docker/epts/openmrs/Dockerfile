@@ -1,7 +1,7 @@
 FROM alpine AS build
 
 RUN apk update && apk add curl unzip; \
-  curl -L http://sourceforge.net/projects/openmrs/files/releases/OpenMRS_Platform_1.11.6/openmrs.war/download \
+  curl -L http://sourceforge.net/projects/openmrs/files/releases/OpenMRS_Platform_1.11.7/openmrs.war/download \
   -o /openmrs.war;
 
 

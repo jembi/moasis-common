@@ -39,5 +39,5 @@
           3264
   roles:
     - common
-    # - mysql
-    # - openmrs
+    - mysql
+    - openmrs

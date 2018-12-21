@@ -15,6 +15,7 @@ services:
       MYSQL_DATABASE: "openmrs"
       MYSQL_USER: "openmrs"
       MYSQL_PASSWORD: "openmrs"
+    command: --max_allowed_packet=32505856
     volumes:
       - mysql-data:/var/lib/mysql
     networks:
@@ -30,9 +31,9 @@ services:
         DB_USERNAME: "openmrs"
         DB_PASSWORD: "openmrs"
         DB_AUTO_UPDATE: 'true'
-    image: openmrs-epts:1.0
+    image: openmrs-1.11.7
     ports:
-      - "8080:8080"
+      - "8081:8080"
     depends_on:
       - mysql-db
     networks:
