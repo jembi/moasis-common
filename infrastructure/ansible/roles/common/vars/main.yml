@@ -49,3 +49,9 @@ developers:
     key: https://github.com/edrisse.keys
     shell: /bin/bash
     state: present
+  - name: Guimino Neves 
+    username: guiminon
+    password: $6$ye9Dlbc30rb8M.bu$MKnePiTR.NNHzOJkY7ywZ5aQ4Ze.FwQMmuMMzReINaJLVCPZmIqr2/CNiCBRp8cRQi0N4kR9o3HxS/ths0Dmp.
+    key: https://github.com/Guimino.keys
+    shell: /bin/bash
+    state: present

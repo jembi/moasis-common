@@ -19,6 +19,8 @@
       - steliom
       - euricoj
       - paulom
+      - guiminon
+      - edrissem
     install_ubuntu: yes
     install_centos6: no
     install_docker: yes
