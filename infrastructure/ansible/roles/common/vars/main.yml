@@ -24,7 +24,7 @@ developers:
     password: $6$dbF0thmmR9R$2tn40fm0z7nlAgoQ58FfHTD0mH6GXyPUYdyXRuyVCsLO2HNLtdSwgQBXgSkit9nOIQa3JKh0VLeagLenOquOv.
     key: https://github.com/rubailly.keys
     shell: /bin/bash
-    state: present
+    state: absent
   - name: Stelio Moiane
     username: steliom
     password: $6$AY8RGYFTbI$tX1w/DC/D3TzzScLeBxO1CYLMJS7i0.PY/SqJfu1dUyY5RHL2qCh8mP0hIzxr50L3VDC3LavyyU2pmtjalmVn.
@@ -49,9 +49,17 @@ developers:
     key: https://github.com/edrisse.keys
     shell: /bin/bash
     state: present
+  - name: Joao Machiana
+    username: joaom
+    password: $6$Q9vzjE2qJHUv6z7P$6s/F.6zit56iEvRy84B5oAL3P1D4c2nUvjC3hG2Ik83vNH1jSMEVQ.lWMJDNH1W0q7EoEwZ5L5BFARvExvOOR/
+    key: https://github.com/joaomachiana.keys
+    shell: /bin/bash
+    state: present
   - name: Guimino Neves 
     username: guiminon
     password: $6$ye9Dlbc30rb8M.bu$MKnePiTR.NNHzOJkY7ywZ5aQ4Ze.FwQMmuMMzReINaJLVCPZmIqr2/CNiCBRp8cRQi0N4kR9o3HxS/ths0Dmp.
     key: https://github.com/Guimino.keys
     shell: /bin/bash
-    state: present
+    state: absent
+
+

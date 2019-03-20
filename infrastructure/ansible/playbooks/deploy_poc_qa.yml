@@ -9,6 +9,8 @@
       - nathanf
       - amolc
       - krishnanm
+      - joaom
+      - paulom
     install_ubuntu: no
     install_centos6: yes
     install_docker: no
